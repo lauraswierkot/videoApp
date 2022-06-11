@@ -1,5 +1,7 @@
+import { query } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { SearchService } from '../search.service';
 import { Item } from '../item';
 
 @Component({
@@ -9,9 +11,11 @@ import { Item } from '../item';
 })
 export class SearchbarComponent implements OnInit {
 
-  public searchbarForm: FormGroup;
+  public searchbarForm : FormGroup;
 
-  constructor() { }
+  public item :  Item;
+
+  constructor(private searchService : SearchService) {}
 
   ngOnInit() {
     this.searchbarForm = new FormGroup({
@@ -20,7 +24,16 @@ export class SearchbarComponent implements OnInit {
   }
 
   onSubmit(form: FormGroup) {
-    console.log(form); 
+    console.log(form.value.link); 
+    this.searchService.getVideos(form.value.link).subscribe(result => {
+      console.log(result.items[0].snippet.channelTitle);
+      console.log(result.items[0].snippet.title);
+      this.item = new Item(result.items[0].snippet.title, result.items[0].snippet.title,result.items[0].snippet.title);
+    });
   }
+
+
+
+
 
 }

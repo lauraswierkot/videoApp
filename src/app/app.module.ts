@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { ListComponent } from './list/list.component';
+import { HttpClientModule } from '@angular/common/http';
+import { SearchService } from './search.service';
+import { SharedService } from './shared.service';
+
 
 @NgModule({
   declarations: [
@@ -18,9 +22,10 @@ import { ListComponent } from './list/list.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [SearchService, SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
