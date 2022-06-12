@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Item } from '../item';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-list',
@@ -8,9 +9,10 @@ import { Item } from '../item';
 })
 export class ListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private sharedService : SharedService) { }
 
   ngOnInit(): void {
+    this.sharedService.getSubject().subscribe(value => console.log(value));
   }
 
   public itemList : Item[] = [];

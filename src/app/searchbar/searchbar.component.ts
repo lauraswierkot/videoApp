@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '../search.service';
 import { Item } from '../item';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -15,7 +16,7 @@ export class SearchbarComponent implements OnInit {
 
   public item :  Item;
 
-  constructor(private searchService : SearchService) {}
+  constructor(private searchService : SearchService, private sharedService : SharedService) {}
 
   ngOnInit() {
     this.searchbarForm = new FormGroup({
@@ -24,16 +25,10 @@ export class SearchbarComponent implements OnInit {
   }
 
   onSubmit(form: FormGroup) {
-    console.log(form.value.link); 
-    this.searchService.getVideos(form.value.link).subscribe(result => {
-      console.log(result.items[0].snippet.channelTitle);
-      console.log(result.items[0].snippet.title);
-      this.item = new Item(result.items[0].snippet.title, result.items[0].snippet.title,result.items[0].snippet.title);
-    });
+    const observable = this.searchService.getVideos(form.value.link);
+    observable.subscribe(value => this.item = new Item(value.items[0].snippet.title, value.items[0].snippet.title, value.items[0].snippet.title));
+    this.sharedService.shareItem(this.item);
   }
-
-
-
 
 
 }
