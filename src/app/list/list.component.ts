@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Item } from '../item';
+import { Item } from '../core/item';
 import { SharedService } from '../shared.service';
 
 @Component({
@@ -12,12 +12,12 @@ export class ListComponent implements OnInit {
   constructor(private sharedService : SharedService) { }
 
   ngOnInit(): void {
-    this.sharedService.getSubject().subscribe(value => console.log(value));
+    this.sharedService.getSubject().subscribe(value => this.itemList.push(value));
   }
 
   public itemList : Item[] = [];
 
-  removeItem(index:number)
+  public removeItem(index:number): void
   {
     if(index > -1)
     {

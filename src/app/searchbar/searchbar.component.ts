@@ -1,8 +1,7 @@
-import { query } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '../search.service';
-import { Item } from '../item';
+import { Item } from '../core/item';
 import { SharedService } from '../shared.service';
 
 @Component({
@@ -13,22 +12,21 @@ import { SharedService } from '../shared.service';
 export class SearchbarComponent implements OnInit {
 
   public searchbarForm : FormGroup;
-
   public item :  Item;
 
   constructor(private searchService : SearchService, private sharedService : SharedService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.searchbarForm = new FormGroup({
       link: new FormControl('')
     });
   }
 
-  onSubmit(form: FormGroup) {
+  public onSubmit(form: FormGroup): void {
     const observable = this.searchService.getVideos(form.value.link);
-    observable.subscribe(value => this.item = new Item(value.items[0].snippet.title, value.items[0].snippet.title, value.items[0].snippet.title));
-    this.sharedService.shareItem(this.item);
+    observable.subscribe(value => { 
+      this.item = new Item(form.value.link, value.items[0].snippet.title, value.items[0].snippet.title, value.items[0].snippet.title);
+      this.sharedService.shareItem(this.item);
+    });
   }
-
-
 }

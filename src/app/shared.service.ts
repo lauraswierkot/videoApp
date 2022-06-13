@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, observable, Subject } from 'rxjs';
-import { Item } from './item';
+import { Subject } from 'rxjs';
+import { Item } from './core/item';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
 
-  subject : BehaviorSubject<Item> = new BehaviorSubject<Item>(new Item("","",""));
+  subject : Subject<Item> = new Subject<Item>();
 
-  shareItem(item : Item){
+  public shareItem(item : Item): void{
     this.subject.next(item); 
   }
 
-  getSubject(){
+  public getSubject(): Subject<Item>{
     return this.subject;
   }
-
-
 }
-

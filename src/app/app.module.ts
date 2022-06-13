@@ -1,31 +1,24 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { SearchbarComponent } from './searchbar/searchbar.component';
-import { ListComponent } from './list/list.component';
-import { HttpClientModule } from '@angular/common/http';
-import { SearchService } from './search.service';
-import { SharedService } from './shared.service';
-
+import { HomeModule } from './home/home.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent,
-    SearchbarComponent,
-    ListComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    HomeModule,
+    CoreModule
   ],
-  providers: [SearchService, SharedService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

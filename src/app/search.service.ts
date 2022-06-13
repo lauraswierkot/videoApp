@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class SearchService {
 
   private apiURL = 'https://www.googleapis.com/youtube/v3/search';
-  private apiKey = 'AIzaSyDV-uBvC5J_Ncp4wvBOZJajNURVg_CJm-8';
+  private apiKey = 'AIzaSyCKw2tFUYiwJTYbyyKnfe-VkyIVWMC5MvU';
 
   constructor(public http: HttpClient) { }
 
@@ -21,5 +21,4 @@ export class SearchService {
         map((response: any) => response)
       );
   }
-
 }
