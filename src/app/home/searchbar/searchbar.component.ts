@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Item } from '../item';
 
 @Component({
   selector: 'app-searchbar',
@@ -11,16 +10,13 @@ export class SearchbarComponent implements OnInit {
 
   public searchbarForm: FormGroup;
 
-  constructor() { }
-
-  ngOnInit() {
+  public ngOnInit(): void {
     this.searchbarForm = new FormGroup({
       link: new FormControl('')
     });
   }
 
-  onSubmit(form: FormGroup) {
-    console.log(form); 
+  public onSubmit(form: FormGroup): FormGroup {
+    return form.value.link; 
   }
-
 }
