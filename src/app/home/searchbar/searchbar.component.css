@@ -1,0 +1,51 @@
+.wrapper{
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);;
+    padding: 20px;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+input{
+    width:100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: black;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    background: transparent;
+    transition: 0.7s;
+    -webkit-transition: 0.7s;
+  }
+
+  input:focus {
+    border-bottom: 2px solid #555;
+  }
+
+  button{
+    border-radius: 2px;
+    background-color: #e7e7e7;
+    transition-duration: 0.4s;
+    border: none;
+    color: black;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+
+  button:hover{
+    background-color: #dddbdb;
+  }
+
+  .submitButton{
+    width: 100%;
+    margin-bottom: 5px;
+  }
