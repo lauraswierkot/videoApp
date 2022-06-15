@@ -3,24 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home.component';
-import { ListComponent } from '../list/list.component';
-import { SearchbarComponent } from '../searchbar/searchbar.component';
+import { VideoListComponent, SearchbarComponent } from './index';
+
+const components = [HomeComponent, VideoListComponent, SearchbarComponent];
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-    ListComponent,
-    SearchbarComponent
-],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule
-  ],
-  exports: [
-      HomeComponent,
-      ListComponent,
-      SearchbarComponent
-  ]
+  declarations: [...components],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  exports: [...components],
 })
-export class HomeModule { }
+export class HomeModule {}

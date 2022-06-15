@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { SearchService } from '../search.service';
-import { Item } from '../core/item';
-import { SharedService } from '../shared.service';
+import { SearchService } from 'src/app/search.service';
+import { Item } from 'src/app/core/item';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-searchbar',

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Item } from '../core/item';
-import { SharedService } from '../shared.service';
+import { Item } from 'src/app/core/item';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  selector: 'app-videoList',
+  templateUrl: './videoList.component.html',
+  styleUrls: ['./videoList.component.css']
 })
-export class ListComponent implements OnInit {
+export class VideoListComponent {
 
   constructor(private sharedService : SharedService) { }
 
@@ -24,5 +24,4 @@ export class ListComponent implements OnInit {
       this.itemList.splice(index, 1);
     }
   }
-
 }
