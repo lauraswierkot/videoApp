@@ -1,4 +1,4 @@
-export class Item {
+export class Video {
   id: string;
   title: string;
   description: string;

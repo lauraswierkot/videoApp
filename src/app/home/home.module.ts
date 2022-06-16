@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home.component';
-import { VideoListComponent, SearchbarComponent } from './index';
+import { VideoListComponent, SearchbarComponent, VideoListItemComponent } from './index';
 
-const components = [HomeComponent, VideoListComponent, SearchbarComponent];
+const components = [HomeComponent, VideoListComponent, SearchbarComponent, VideoListItemComponent];
 
 @NgModule({
   declarations: [...components],

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SearchService {
+export class HttpService {
+  private apiURL = environment.apiURL;
+  private apiKey = environment.apiKey;
 
-  private apiURL = 'https://www.googleapis.com/youtube/v3/search';
-  private apiKey = 'AIzaSyCKw2tFUYiwJTYbyyKnfe-VkyIVWMC5MvU';
-
-  constructor(public http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getVideos(query: string): Observable <any> {
     const url = `${this.apiURL}?q=v=${query}&key=${this.apiKey}&part=snippet&type=video&maxResults=10`;

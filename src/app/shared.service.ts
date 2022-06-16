@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Item } from './core/item';
+import { Video } from './core/video';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
 
-  subject : Subject<Item> = new Subject<Item>();
+  video: Subject<Video> = new Subject<Video>();
 
-  public shareItem(item : Item): void{
-    this.subject.next(item); 
+  public shareItem(item: Video): void {
+    this.video.next(item); 
   }
 
-  public getSubject(): Subject<Item>{
-    return this.subject;
+  public getVideos(): Subject<Video> {
+    return this.video;
   }
 }
