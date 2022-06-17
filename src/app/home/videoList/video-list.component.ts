@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Video } from 'src/app/core/video';
-import { SharedService } from 'src/app/shared.service';
+import { Video } from 'src/app/core/model/video';
+import { HttpService } from 'src/app/core/model/http.service';
 
 @Component({
   selector: 'app-videoList',
@@ -9,18 +9,12 @@ import { SharedService } from 'src/app/shared.service';
 })
 export class VideoListComponent implements OnInit {
 
-  constructor(private sharedService : SharedService) { }
+  constructor(private httpService : HttpService) {}
   public videoList: Video[] = [];
   
-
   public ngOnInit(): void {
-    this.sharedService.getVideos().subscribe(value => this.videoList.push(value));
-  }
-
-  public removeItem(index: number): void {
-    if(index > -1)
-    {
-      this.videoList.splice(index, 1);
-    }
+    this.httpService.getVideosList().subscribe(value => { 
+      this.videoList = value 
+    });
   }
 }

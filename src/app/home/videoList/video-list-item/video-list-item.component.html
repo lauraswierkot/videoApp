@@ -1,3 +1,6 @@
-{{video?.title}}<br>
-{{video?.description}}<br>
-<img [src]="video?.thumbnail"/>
+<div class="video-list-item">
+    {{video?.title}}<br>
+    {{video?.description}}<br>
+    <img [src]="video?.thumbnail"/>
+    <button type="button" (click)="delete(video.id)">delete</button>
+</div>

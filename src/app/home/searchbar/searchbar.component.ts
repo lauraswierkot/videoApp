@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { HttpService } from 'src/app/http.service';
-import { Video } from 'src/app/core/video';
-import { SharedService } from 'src/app/shared.service';
+import { HttpService } from 'src/app/core';
+import { Video } from 'src/app/core/model/video';
 
 @Component({
   selector: 'app-searchbar',
@@ -12,10 +11,10 @@ import { SharedService } from 'src/app/shared.service';
 })
 export class SearchbarComponent implements OnInit {
 
+  constructor(private httpService : HttpService) {}
+
   public searchbarForm: FormGroup;
   public item: Video;
-
-  constructor(private httpService : HttpService, private sharedService : SharedService) {}
 
   public ngOnInit(): void {
     this.searchbarForm = new FormGroup({
@@ -24,9 +23,9 @@ export class SearchbarComponent implements OnInit {
   }
 
   public onSubmit(form: FormGroup): void { 
-    this.httpService.getVideos(form.value.link).subscribe(value => { 
-      this.item = new Video(form.value.link, value.items[0].snippet.title, value.items[0].snippet.title, value.items[0].snippet.thumbnails.medium.url);
-      this.sharedService.shareItem(this.item);
+    this.httpService.getVideo(form.value.link).subscribe(value => { 
+      this.item = new Video(form.value.link, value.items[0].snippet.title, value.items[0].snippet.description, value.items[0].snippet.thumbnails.medium.url);
+      this.httpService.saveVideo(this.item);  
       });
   }
 }
