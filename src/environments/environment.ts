@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   ytKey: 'AIzaSyCKw2tFUYiwJTYbyyKnfe-VkyIVWMC5MvU',
   ytURL: 'https://www.googleapis.com/youtube/v3/search',
-  vimeoKey: '7f4a68cb47995c5c0a44e9c0011311b9'
+  vimeoKey: '7f4a68cb47995c5c0a44e9c0011311b9',
+  vimeoURL: 'https://api.vimeo.com/videos/'
 };
 
 /*
