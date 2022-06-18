@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiKey: 'AIzaSyCKw2tFUYiwJTYbyyKnfe-VkyIVWMC5MvU',
-  apiURL: 'https://www.googleapis.com/youtube/v3/search'
+  ytKey: 'AIzaSyCKw2tFUYiwJTYbyyKnfe-VkyIVWMC5MvU',
+  ytURL: 'https://www.googleapis.com/youtube/v3/search',
+  vimeoKey: '7f4a68cb47995c5c0a44e9c0011311b9'
 };
 
 /*

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpService } from '.';
+import { HttpService, YoutubeService, VimeoService } from '.';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
   ],
-  providers: [HttpService]
+  providers: [HttpService, YoutubeService, VimeoService]
 })
 export class CoreModule { }

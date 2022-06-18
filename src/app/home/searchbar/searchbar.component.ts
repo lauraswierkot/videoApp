@@ -24,7 +24,12 @@ export class SearchbarComponent implements OnInit {
 
   public onSubmit(form: FormGroup): void { 
     this.httpService.getVideo(form.value.link).subscribe(value => { 
-      this.item = new Video(form.value.link, value.items[0].snippet.title, value.items[0].snippet.description, value.items[0].snippet.thumbnails.medium.url);
+      this.item = new Video (
+        form.value.link, 
+        value.items[0].snippet.title, 
+        value.items[0].snippet.description, 
+        value.items[0].snippet.thumbnails.medium.url
+      );
       this.httpService.saveVideo(this.item);  
       });
   }

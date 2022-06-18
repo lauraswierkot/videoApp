@@ -14,16 +14,21 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  private apiURL: string = environment.apiURL;
-  private apiKey: string = environment.apiKey;
+  private apiURL: string = environment.ytURL;
+  private apiKey: string = environment.ytKey;
 
   public videosList$: Subject<Video[]> = new Subject<Video[]>();
   public video$: Subject<Video> = new Subject<Video>();
   public videos: Video[] = [];
 
+  public getYoutubeVideoID = (url: string) => {
+    const regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/gi;
+    return url.replace(regex, `$1`);
+  };
+
   public getVideo(id: string): Observable <any> {
+    this.getYoutubeVideoID(id);
     const url = `${this.apiURL}?q=v=${id}&key=${this.apiKey}&part=snippet&type=video&maxResults=10`;
-    console.log(url);
     return this.http.get(url)
       .pipe(
         map((response: any) => response)
@@ -31,23 +36,15 @@ export class HttpService {
   }
 
   public saveVideo(item: Video): void {
-    const stringVideosInLs = localStorage.getItem("Video List");
-
-    if(stringVideosInLs != undefined) {
-      this.videos = JSON.parse(stringVideosInLs);
-    }
+    this.videos = this.getFromLocalStorage();
     this.videos.push(item);
-    localStorage.setItem("Video List", JSON.stringify(this.videos))
+    this.setInLocalStorage(this.videos);
     this.videosList$.next(this.videos);
     this.video$.next(item);
   }
 
   public getVideosList(): Subject<Video[]> { 
-    const stringVideosInLs = localStorage.getItem("Video List");
-
-    if(stringVideosInLs != undefined) {
-      this.videos = JSON.parse(stringVideosInLs);
-    }
+    this.videos = this.getFromLocalStorage();
     this.videosList$.next(this.videos);
     return this.videosList$;
   }
