@@ -5,15 +5,18 @@ import { HttpService } from 'src/app/core/model/http.service';
 @Component({
   selector: 'app-video-list-item',
   templateUrl: './video-list-item.component.html',
-  styleUrls: ['./video-list-item.component.css']
+  styleUrls: ['./video-list-item.component.css'],
 })
-export class VideoListItemComponent { 
-
+export class VideoListItemComponent {
   constructor(private httpService: HttpService) {}
-  
+
   @Input() video: Video;
 
   public delete(id: string): void {
     this.httpService.deleteVideo(id);
+  }
+
+  public setAsFavorite(): void {
+    this.video.isFavorite = true;
   }
 }

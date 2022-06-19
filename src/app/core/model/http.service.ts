@@ -11,7 +11,7 @@ import { VimeoService } from './vimeo.service';
 export class HttpService {
   constructor(
     private youtubeService: YoutubeService,
-    vimeoService: VimeoService
+    private vimeoService: VimeoService
   ) {}
 
   public videosList$: Subject<Video[]> = new BehaviorSubject<Video[]>([]);
@@ -20,12 +20,12 @@ export class HttpService {
 
   public getVideo(id: string): void {
     let videoObservable$: Observable<Video> = new Observable<Video>();
-    if (id != 'yt') {
+    if (id == 'yt') {
       //conditions to be changed
       videoObservable$ = this.youtubeService.getVideo(id);
     } else {
-      //vimeo method to be added
-      videoObservable$ = this.youtubeService.getVideo(id);
+      //vimeo method to be added 
+      videoObservable$ = this.vimeoService.getVideo(id);
     }
     videoObservable$.subscribe((value: Video) => {
       this.saveVideo(value);

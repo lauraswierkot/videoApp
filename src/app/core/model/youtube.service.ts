@@ -16,12 +16,19 @@ export class YoutubeService {
   public getVideo(id: string): Observable<Video> {
     id = this.getYoutubeVideoID(id);
     const url = `${this.apiURL}?q=v=${id}&key=${this.apiKey}&part=snippet&type=video&maxResults=10`;
-    return this.http.get(url).pipe(map((value: any) => new Video(
-      id, 
-      value.items[0].snippet.title, 
-      value.items[0].snippet.description, 
-      value.items[0].snippet.thumbnails.medium.url
-      )));
+    return this.http
+      .get(url)
+      .pipe(
+        map(
+          (value: any) =>
+            new Video(
+              id,
+              value.items[0].snippet.title,
+              value.items[0].snippet.description,
+              value.items[0].snippet.thumbnails.medium.url
+            )
+        )
+      );
   }
 
   private getYoutubeVideoID(url: string): string {
