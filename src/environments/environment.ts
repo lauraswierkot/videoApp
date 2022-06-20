@@ -2,12 +2,14 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { Keys } from 'src/app/keys';
+
 export const environment = {
   production: false,
-  ytKey: 'AIzaSyCKw2tFUYiwJTYbyyKnfe-VkyIVWMC5MvU',
+  ytKey: Keys.ytKey,
   ytURL: 'https://www.googleapis.com/youtube/v3/search',
-  vimeoKey: '7f4a68cb47995c5c0a44e9c0011311b9',
-  vimeoURL: 'https://api.vimeo.com/videos/'
+  vimeoKey: Keys.vimeoKey,
+  vimeoURL: 'https://api.vimeo.com/videos/',
 };
 
 /*

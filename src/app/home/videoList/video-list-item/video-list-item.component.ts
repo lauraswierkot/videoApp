@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Video } from 'src/app/core/model/video';
-import { HttpService } from 'src/app/core/model/http.service';
+import { VideoService } from 'src/app/core';
 
 @Component({
   selector: 'app-video-list-item',
@@ -8,12 +8,12 @@ import { HttpService } from 'src/app/core/model/http.service';
   styleUrls: ['./video-list-item.component.css'],
 })
 export class VideoListItemComponent {
-  constructor(private httpService: HttpService) {}
-
   @Input() video: Video;
 
+  constructor(private videoService: VideoService) {}
+
   public delete(id: string): void {
-    this.httpService.deleteVideo(id);
+    this.videoService.deleteVideo(id);
   }
 
   public setAsFavorite(): void {
