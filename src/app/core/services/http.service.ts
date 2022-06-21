@@ -7,8 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 interface IVimeo {
   name: string;
-  description: string;
   pictures: { base_link: string };
+  metadata: { connections: { likes: { total: number } } };
 }
 
 interface IYouTube {
@@ -16,8 +16,11 @@ interface IYouTube {
     {
       snippet: {
         title: string;
-        description: string;
         thumbnails: { medium: { url: string } };
+      };
+      statistics: {
+        likeCount: string;
+        viewCount: string;
       };
     }
   ];
@@ -38,37 +41,31 @@ export class HttpService {
   constructor(private http: HttpClient) {}
 
   public getVimeoVideo(id: string): Observable<Video> {
-    const url = `${this.vimeoURL}/${id}`;
+    const url = `${this.vimeoURL}/${id}?action=load_stat_counts`;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.vimeoKey}`,
     });
     return this.http.get<IVimeo>(url, { headers: headers }).pipe(
-      map(
-        (response) =>
-          ({
-            id: id,
-            title: response.name,
-            description: response.description,
-            thumbnail: response.pictures.base_link,
-          })
-      )
+      map((response) => ({
+        id: id,
+        title: response.name,
+        thumbnail: response.pictures.base_link,
+        likeCount: response.metadata.connections.likes.total.toString(),
+      }))
     );
   }
 
   public getYoutubeVideo(id: string): Observable<Video> {
     id = this.getYoutubeVideoId(id);
-    const url = `${this.youtubeURL}?id=${id}&key=${this.youtubeKey}&part=snippet,statistics&fields=items(id,snippet(title,description,thumbnails),statistics(viewCount,likeCount))`
-    //const url = `${this.youtubeURL}?q=v=${id}&key=${this.youtubeKey}&part=snippet&type=video&maxResults=10`;
+    const url = `${this.youtubeURL}?id=${id}&key=${this.youtubeKey}&part=snippet,statistics&fields=items(id,snippet(title,thumbnails),statistics(viewCount,likeCount))`;
     return this.http.get<IYouTube>(url).pipe(
-      map(
-        (response) =>
-          ({
-            id: id,
-            title: response.items[0]?.snippet?.title,
-            description: response.items[0]?.snippet?.description,
-            thumbnail: response.items[0]?.snippet?.thumbnails?.medium?.url,
-          })
-      )
+      map((response) => ({
+        id: id,
+        title: response.items[0]?.snippet?.title,
+        thumbnail: response.items[0]?.snippet?.thumbnails?.medium?.url,
+        likeCount: response.items[0]?.statistics?.likeCount,
+        viewCount: response.items[0]?.statistics?.viewCount,
+      }))
     );
   }
 

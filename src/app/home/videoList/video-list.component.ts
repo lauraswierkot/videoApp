@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { Video } from 'src/app/core/model/video';
-import { VideoService } from 'src/app/core';
+import { FacadeService } from 'src/app/core';
 
 @Component({
   selector: 'app-videoList',
@@ -12,23 +12,23 @@ export class VideoListComponent implements OnInit, OnDestroy {
   @Input() video: Video;
   public videoList: Video[] = [];
 
-  constructor(private videoService: VideoService) {}
+  constructor(private facadeService: FacadeService) {}
 
   public ngOnInit(): void {
-    this.videoService.getVideosList().subscribe((value) => {
+    this.facadeService.getVideosList().subscribe((value) => {
       this.videoList = value;
     });
   }
 
   public ngOnDestroy(): void {
-    this.videoService.getVideosList().unsubscribe();
+    this.facadeService.getVideosList().unsubscribe();
   }
 
   public delete(id: string): void {
-    this.videoService.deleteVideo(id);
+    this.facadeService.deleteVideo(id);
   }
 
   public setAsFavorite(id: string): void {
-    this.videoService.setAsFavorite(id);
+    this.facadeService.setAsFavorite(id);
   }
 }

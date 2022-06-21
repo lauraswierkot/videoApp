@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { VideoService
- } from 'src/app/core';
+import { FacadeService } from 'src/app/core';
+
 @Component({
   selector: 'app-searchbar',
   templateUrl: './searchbar.component.html',
@@ -11,7 +11,7 @@ import { VideoService
 export class SearchbarComponent implements OnInit {
   public searchbarForm: FormGroup;
 
-  constructor(private videoService: VideoService) {}
+  constructor(private facadeService: FacadeService) {}
 
   public ngOnInit(): void {
     this.searchbarForm = new FormGroup({
@@ -20,6 +20,6 @@ export class SearchbarComponent implements OnInit {
   }
 
   public onSubmit(form: FormGroup): void {
-    this.videoService.getVideo(form.value.searchPhrase);
+    this.facadeService.getVideo(form.value.searchPhrase);
   }
 }

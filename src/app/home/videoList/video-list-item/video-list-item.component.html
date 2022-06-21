@@ -1,7 +1,10 @@
 <mat-card class="video-list-item">
-  <mat-card-title>{{ video?.title }}</mat-card-title> <br />
-  <mat-card-content>{{ video?.description }}</mat-card-content> <br />
+  <mat-card-title>{{ video?.title }}</mat-card-title>
   <img mat-card-image [src]="video?.thumbnail" />
+  <mat-card-content>
+    Likes: {{ video?.likeCount }} <br />
+    Views: {{ video?.viewCount }} 
+  </mat-card-content>
   <mat-card-actions>
     <button type="button" (click)="delete(video.id)">delete</button>
     <button type="button" (click)="setAsFavorite(video.id)">favorite</button>

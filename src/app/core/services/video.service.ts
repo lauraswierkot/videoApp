@@ -29,14 +29,6 @@ export class VideoService {
     });
   }
 
-  public saveVideo(item: Video): void {
-    this.videos = this.getFromLocalStorage();
-    this.videos.push(item);
-    this.setInLocalStorage(this.videos);
-    this.videosList$.next(this.videos);
-    this.video$.next(item);
-  }
-
   public getVideosList(): Subject<Video[]> {
     this.videos = this.getFromLocalStorage();
     this.videosList$.next(this.videos);
@@ -55,6 +47,14 @@ export class VideoService {
     this.videos.filter((value) => value.id === id)[0].isFavorite = true;
     this.setInLocalStorage(this.videos);
     this.videosList$.next(this.videos);
+  }
+
+  private saveVideo(item: Video): void {
+    this.videos = this.getFromLocalStorage();
+    this.videos.push(item);
+    this.setInLocalStorage(this.videos);
+    this.videosList$.next(this.videos);
+    this.video$.next(item);
   }
 
   private getFromLocalStorage(): Video[] {
