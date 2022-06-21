@@ -3,7 +3,9 @@
   <img mat-card-image [src]="video?.thumbnail" />
   <mat-card-content>
     Likes: {{ video?.likeCount }} <br />
-    Views: {{ video?.viewCount }} 
+    Views: {{ video?.viewCount }} <br />
+    Added to library: {{ video?.createdAt | date: 'dd/MM/yyyy'}}
+  
   </mat-card-content>
   <mat-card-actions>
     <button type="button" (click)="delete(video.id)">delete</button>

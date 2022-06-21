@@ -36,7 +36,7 @@ export class HttpService {
   private vimeoURL: string = environment.vimeoURL;
   private vimeoKey: string = environment.vimeoKey;
   private youtubeURL: string = environment.ytURL;
-  private youtubeKey: string = environment.ytKey;
+  private youtubeKey: string = environment.ytKey; 
 
   constructor(private http: HttpClient) {}
 
@@ -51,6 +51,7 @@ export class HttpService {
         title: response.name,
         thumbnail: response.pictures.base_link,
         likeCount: response.metadata.connections.likes.total.toString(),
+        createdAt: new Date()
       }))
     );
   }
@@ -65,6 +66,7 @@ export class HttpService {
         thumbnail: response.items[0]?.snippet?.thumbnails?.medium?.url,
         likeCount: response.items[0]?.statistics?.likeCount,
         viewCount: response.items[0]?.statistics?.viewCount,
+        createdAt: new Date()
       }))
     );
   }

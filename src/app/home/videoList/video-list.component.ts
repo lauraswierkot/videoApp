@@ -2,7 +2,9 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { Video } from 'src/app/core/model/video';
 import { FacadeService } from 'src/app/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-videoList',
   templateUrl: './video-list.component.html',
@@ -15,13 +17,15 @@ export class VideoListComponent implements OnInit, OnDestroy {
   constructor(private facadeService: FacadeService) {}
 
   public ngOnInit(): void {
-    this.facadeService.getVideosList().subscribe((value) => {
-      this.videoList = value;
-    });
+    this.facadeService.videoList$
+      .pipe(untilDestroyed(this))
+      .subscribe((value) => {
+        this.videoList = value;
+      });
   }
 
   public ngOnDestroy(): void {
-    this.facadeService.getVideosList().unsubscribe();
+    this.facadeService.videoList$.unsubscribe();
   }
 
   public delete(id: string): void {

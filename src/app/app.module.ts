@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { VideoDialogComponent } from './home/videoList/video-list-item/video-dialog/video-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    VideoDialogComponent
   ],
   imports: [
     BrowserModule,

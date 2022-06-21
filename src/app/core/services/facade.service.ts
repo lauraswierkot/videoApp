@@ -7,22 +7,12 @@ import { VideoService } from './video.service';
   providedIn: 'root',
 })
 export class FacadeService {
-  private _videoService: VideoService;
-  public get videoService(): VideoService {
-    if (!this._videoService) {
-      this._videoService = this.injector.get(VideoService);
-    }
-    return this._videoService;
-  }
-
-  constructor(private injector: Injector) {}
+  public videoList$ = this.videoService.videosList$;
+  
+  constructor(private videoService: VideoService) {}
 
   public getVideo(id: string): void {
     this.videoService.getVideo(id);
-  }
-
-  public getVideosList(): Subject<Video[]> {
-    return this.videoService.getVideosList();
   }
 
   public deleteVideo(id: string): void {

@@ -8,13 +8,19 @@ import { HttpService } from './http.service';
   providedIn: 'root',
 })
 export class VideoService {
-  public videosList$: Subject<Video[]> = new BehaviorSubject<Video[]>([]);
+  public _videosList$: Subject<Video[]> = new BehaviorSubject<Video[]>([]);
   public video$: Subject<Video> = new Subject<Video>();
   public videos: Video[] = [];
 
   private localStorageList = 'Video List';
 
   constructor(private httpService: HttpService) {}
+
+  public get videosList$() { 
+    this.videos = this.getFromLocalStorage();
+    this._videosList$.next(this.videos);
+    return this._videosList$;
+  }
 
   public getVideo(id: string): void {
     let videoObservable$: Observable<Video>;
@@ -31,29 +37,29 @@ export class VideoService {
 
   public getVideosList(): Subject<Video[]> {
     this.videos = this.getFromLocalStorage();
-    this.videosList$.next(this.videos);
-    return this.videosList$;
+    this._videosList$.next(this.videos);
+    return this._videosList$;
   }
 
   public deleteVideo(id: string): void {
     this.videos = this.getFromLocalStorage();
     this.videos = this.videos.filter((value) => value.id !== id);
     this.setInLocalStorage(this.videos);
-    this.videosList$.next(this.videos);
+    this._videosList$.next(this.videos);
   }
 
   public setAsFavorite(id: string): void {
     this.videos = this.getFromLocalStorage();
     this.videos.filter((value) => value.id === id)[0].isFavorite = true;
     this.setInLocalStorage(this.videos);
-    this.videosList$.next(this.videos);
+    this._videosList$.next(this.videos);
   }
 
   private saveVideo(item: Video): void {
     this.videos = this.getFromLocalStorage();
     this.videos.push(item);
     this.setInLocalStorage(this.videos);
-    this.videosList$.next(this.videos);
+    this._videosList$.next(this.videos);
     this.video$.next(item);
   }
 
