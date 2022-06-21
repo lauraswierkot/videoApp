@@ -7,7 +7,7 @@ import { Keys } from 'src/app/keys';
 export const environment = {
   production: false,
   ytKey: Keys.ytKey,
-  ytURL: 'https://www.googleapis.com/youtube/v3/search',
+  ytURL: 'https://www.googleapis.com/youtube/v3/videos',
   vimeoKey: Keys.vimeoKey,
   vimeoURL: 'https://api.vimeo.com/videos/',
 };

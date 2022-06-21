@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 import { Video } from 'src/app/core/model/video';
-import { VideoService } from 'src/app/core';
 
 @Component({
   selector: 'app-video-list-item',
@@ -9,14 +9,14 @@ import { VideoService } from 'src/app/core';
 })
 export class VideoListItemComponent {
   @Input() video: Video;
-
-  constructor(private videoService: VideoService) {}
+  @Output() videoDeleted: EventEmitter<string> = new EventEmitter<string>();
+  @Output() videoFavourite: EventEmitter<string> = new EventEmitter<string>();
 
   public delete(id: string): void {
-    this.videoService.deleteVideo(id);
+    this.videoDeleted.emit(id);
   }
 
-  public setAsFavorite(): void {
-    this.video.isFavorite = true;
+  public setAsFavorite(id: string): void {
+    this.videoFavourite.emit(id);
   }
 }

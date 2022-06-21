@@ -29,6 +29,7 @@ interface IYouTube {
 export class HttpService {
   public videosList$: Subject<Video[]> = new BehaviorSubject<Video[]>([]);
   public video$: Subject<Video> = new Subject<Video>();
+
   private vimeoURL: string = environment.vimeoURL;
   private vimeoKey: string = environment.vimeoKey;
   private youtubeURL: string = environment.ytURL;
@@ -49,14 +50,15 @@ export class HttpService {
             title: response.name,
             description: response.description,
             thumbnail: response.pictures.base_link,
-          } as Video)
+          })
       )
     );
   }
 
   public getYoutubeVideo(id: string): Observable<Video> {
     id = this.getYoutubeVideoId(id);
-    const url = `${this.youtubeURL}?q=v=${id}&key=${this.youtubeKey}&part=snippet&type=video&maxResults=10`;
+    const url = `${this.youtubeURL}?id=${id}&key=${this.youtubeKey}&part=snippet,statistics&fields=items(id,snippet(title,description,thumbnails),statistics(viewCount,likeCount))`
+    //const url = `${this.youtubeURL}?q=v=${id}&key=${this.youtubeKey}&part=snippet&type=video&maxResults=10`;
     return this.http.get<IYouTube>(url).pipe(
       map(
         (response) =>
@@ -65,7 +67,7 @@ export class HttpService {
             title: response.items[0]?.snippet?.title,
             description: response.items[0]?.snippet?.description,
             thumbnail: response.items[0]?.snippet?.thumbnails?.medium?.url,
-          } as Video)
+          })
       )
     );
   }
