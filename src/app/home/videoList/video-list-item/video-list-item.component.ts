@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Video } from 'src/app/core/model/video';
+import { Video } from 'src/app/core';
 
 @Component({
   selector: 'app-video-list-item',

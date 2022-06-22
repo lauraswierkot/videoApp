@@ -16,7 +16,7 @@ export class VideoService {
 
   constructor(private httpService: HttpService) {}
 
-  public get videosList$() { 
+  public get videosList$() {
     this.videos = this.getFromLocalStorage();
     this._videosList$.next(this.videos);
     return this._videosList$;
@@ -33,12 +33,6 @@ export class VideoService {
     videoObservable$.pipe(take(1)).subscribe((value: Video) => {
       this.saveVideo(value);
     });
-  }
-
-  public getVideosList(): Subject<Video[]> {
-    this.videos = this.getFromLocalStorage();
-    this._videosList$.next(this.videos);
-    return this._videosList$;
   }
 
   public deleteVideo(id: string): void {
