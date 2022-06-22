@@ -5,10 +5,10 @@
     Likes: {{ video?.likeCount }} <br />
     Views: {{ video?.viewCount }} <br />
     Added to library: {{ video?.createdAt | date: 'dd/MM/yyyy'}}
-  
   </mat-card-content>
   <mat-card-actions>
     <button type="button" (click)="delete(video.id)">delete</button>
     <button type="button" (click)="setAsFavorite(video.id)">favorite</button>
+    <button mat-raised-button (click)="openDialog()">Watch</button>
   </mat-card-actions>
 </mat-card>

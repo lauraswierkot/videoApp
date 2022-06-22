@@ -68,7 +68,7 @@ export class HttpService {
     );
   }
 
-  private getYoutubeVideoId(url: string): string {
+  public getYoutubeVideoId(url: string): string {
     const regex =
       /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/gi;
     return url.replace(regex, `$1`);
