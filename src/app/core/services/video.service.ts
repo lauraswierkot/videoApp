@@ -49,6 +49,22 @@ export class VideoService {
     this._videosList$.next(this.videos);
   }
 
+  public deleteAll(): void {
+    this.videos = [];
+    this.setInLocalStorage(this.videos);
+    this._videosList$.next(this.videos);
+  }
+
+  public getDemoVideos(): void {
+    const url1: string = 'BwknA6aGqvs';
+    const url2: string = 'zN6zF8AaDA4';
+    const url3: string = 'eIAEy5aOb9g';
+    const videos: string[] = [url1, url2, url3];
+    videos.forEach((element) => {
+      this.getVideo(element);
+    });
+  }
+
   private saveVideo(item: Video): void {
     this.videos = this.getFromLocalStorage();
     this.videos.push(item);

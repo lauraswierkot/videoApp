@@ -22,4 +22,12 @@ export class FacadeService {
   public setAsFavorite(id: string): void {
     return this.videoService.setAsFavorite(id);
   }
+
+  public deleteAll(): void {
+    return this.videoService.deleteAll();
+  }
+
+  public getDemoVideos(): void {
+    return this.videoService.getDemoVideos();
+  }
 }
