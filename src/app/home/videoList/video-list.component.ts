@@ -11,7 +11,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./video-list.component.css'],
 })
 export class VideoListComponent implements OnInit, OnDestroy {
-  @Input() video: Video;
   public videoList: Video[] = [];
 
   constructor(private facadeService: FacadeService) {}
