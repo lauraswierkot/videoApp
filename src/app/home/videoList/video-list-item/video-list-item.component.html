@@ -3,9 +3,8 @@
   <img mat-card-image [src]="video?.thumbnail" />
   <mat-card-content>
     Likes: {{ video?.likeCount }} <br />
-    Views: {{ video?.viewCount }} <br />
+    <span *ngIf="video?.viewCount !== undefined">View count: {{ video?.viewCount }}<br/></span>
     Added to library: {{ video?.createdAt | date: 'dd/MM/yyyy'}}
-  
   </mat-card-content>
   <mat-card-actions>
     <button type="button" (click)="delete(video.id)">delete</button>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Video } from '../model/video';
-import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -38,7 +38,8 @@ export class HttpService {
   constructor(private http: HttpClient) {}
 
   public getVimeoVideo(id: string): Observable<Video> {
-    const url = `${this.vimeoUrl}/${id}?action=load_stat_counts`;
+    let vimeoId = this.getVimeoVideoId(id);
+    const url = `${this.vimeoUrl}/${vimeoId}`;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.vimeoKey}`,
     });
@@ -49,11 +50,13 @@ export class HttpService {
         thumbnail: response.pictures.base_link,
         likeCount: response.metadata.connections.likes.total.toString(),
         createdAt: new Date(),
+        isFavorite: false
       }))
     );
   }
 
   public getYoutubeVideo(id: string): Observable<Video> {
+
     let youtubeId = this.getYoutubeVideoId(id);
     const url = `${this.youtubeUrl}?id=${youtubeId}&key=${this.youtubeKey}&part=snippet,statistics&fields=items(id,snippet(title,thumbnails),statistics(viewCount,likeCount))`;
     return this.http.get<IYouTube>(url).pipe(
@@ -64,6 +67,7 @@ export class HttpService {
         likeCount: response.items[0]?.statistics?.likeCount,
         viewCount: response.items[0]?.statistics?.viewCount,
         createdAt: new Date(),
+        isFavorite: false
       }))
     );
   }
@@ -72,5 +76,11 @@ export class HttpService {
     const regex =
       /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/gi;
     return url.replace(regex, `$1`);
+  }
+
+  private getVimeoVideoId(url: string): string {
+    const regex = 
+    /(?:http|https)?:?\/?\/?(?:www\.)?(?:player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)/;
+    return url.length > 8 ? url.match(regex)![1] : url;
   }
 }

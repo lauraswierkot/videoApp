@@ -59,7 +59,7 @@ export class VideoService {
     const url1: string = 'BwknA6aGqvs';
     const url2: string = 'zN6zF8AaDA4';
     const url3: string = 'eIAEy5aOb9g';
-    const videos: string[] = [url1, url2, url3];
+    const videos: string[] = [url1, url2, url3, url1, url2, url3, url1, url2, url3, url1, url2, url3];
     videos.forEach((element) => {
       this.getVideo(element);
     });
