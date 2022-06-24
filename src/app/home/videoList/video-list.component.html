@@ -1,26 +1,24 @@
 <div class="wrapper">
   <h1>your list</h1>
   <button (click)="deleteAll()">delete all</button>
-  <button (click)="getDemoVideos()">get demo videos</button>
   <button (click)="sortAsc()">sort asc</button>
   <button (click)="sortDesc()">sort desc</button>
   <button (click)="filterFavorites()">show only favorites</button>
   <button (click)="showAll()">show all</button>
+  <button (click)="getDemoVideos()">get demo videos</button>
   <div class="container">
     <ng-container *ngFor="let item of videoList">
       <app-video-list-item
-      [video]="item"
-      (videoDeleted)="delete($event)"
-      (videoFavourite)="setAsFavorite($event)"
-      >
-    </app-video-list-item>
-  </ng-container>
+        [video]="item"
+        (videoDeleted)="delete($event)"
+        (videoFavourite)="setAsFavorite($event)">
+      </app-video-list-item>
+    </ng-container>
   </div>
 </div>
 <mat-paginator
   [length]="length"
   [pageSize]="pageSize"
   [pageSizeOptions]="pageSizeOptions"
-  (page)="paginate($event)"
->
+  (page)="paginate($event)">
 </mat-paginator>

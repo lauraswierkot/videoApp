@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Video } from 'src/app/core/model/video';
 import { FacadeService } from 'src/app/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
 
 @UntilDestroy()
 @Component({
@@ -13,10 +14,11 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class VideoListComponent implements OnInit, OnDestroy {
   public videoList: Video[] = [];
+  public unfilteredVideoList: Video[] = [];
   public length: number = 0;
   public pageSize: number = 3;
   public pageIndex: number = 0;
-  public pageSizeOptions: number[] = [3,6,9];
+  public pageSizeOptions: number[] = [3, 6, 9];
 
   constructor(private facadeService: FacadeService) {}
 
@@ -45,19 +47,35 @@ export class VideoListComponent implements OnInit, OnDestroy {
   }
 
   public sortAsc(): void {
-    console.log(typeof this.videoList[0].createdAt)
-    this.videoList.sort((a, b) => new Date(b.createdAt).getDate() - new Date(a.createdAt).getTime());
+    this.unfilteredVideoList.sort(
+      (a, b) =>
+        new Date(b.createdAt).getDate() - new Date(a.createdAt).getTime()
+    );
+    this.paginateUnfilteredList();
   }
 
   public sortDesc(): void {
-    this.videoList.sort((a, b) => new Date(a.createdAt).getDate() - new Date(b.createdAt).getTime());
+    this.unfilteredVideoList.sort(
+      (a, b) =>
+        new Date(a.createdAt).getDate() - new Date(b.createdAt).getTime()
+    );
+   this.paginateUnfilteredList();
   }
 
   public filterFavorites(): void {
-    this.videoList = this.videoList.filter((value) => value.isFavorite !== false);
+    this.unfilteredVideoList = this.videoList.filter(
+      (value) => value.isFavorite !== false
+    );
+    this.paginateUnfilteredList();
   }
 
   public showAll(): void {
+    this.getVideos();
+  }
+
+  public paginate(event: any): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
     this.getVideos();
   }
 
@@ -65,14 +83,20 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.facadeService.videoList$
       .pipe(untilDestroyed(this))
       .subscribe((value) => {
+        this.unfilteredVideoList = value;
         this.length = value.length;
-        this.videoList = value.slice(Number(this.pageIndex * this.pageSize), ((this.pageIndex + Number(1)) * this.pageSize));
-      });   
+        this.videoList = value.slice(
+          Number(this.pageIndex * this.pageSize),
+          (this.pageIndex + Number(1)) * this.pageSize
+        );
+      });
   }
-  
-  public paginate(event: any): void {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.getVideos();
+
+  private paginateUnfilteredList(): Video[] {
+    this.videoList = this.unfilteredVideoList.slice(
+      Number(this.pageIndex * this.pageSize),
+      (this.pageIndex + Number(1)) * this.pageSize
+    );
+    return this.videoList;
   }
 }
