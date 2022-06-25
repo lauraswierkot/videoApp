@@ -26,6 +26,8 @@ export class VideoListComponent implements OnInit, OnDestroy {
   public sortOptions = SortType;
   public showOnlyFavorites: boolean = false;
 
+  public displayType: string = 'list';
+
   constructor(private facadeService: FacadeService, private dialog: MatDialog) {}
 
   public ngOnInit(): void {
@@ -50,6 +52,15 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   public getDemoVideos(): void {
     this.facadeService.getDemoVideos();
+  }
+
+  public toggleDisplay(): void {
+    if(this.displayType === 'list') {
+      this.displayType = 'grid';
+    }
+    else {
+      this.displayType = 'list';
+    }
   }
 
   public playVideo(url: string): void {

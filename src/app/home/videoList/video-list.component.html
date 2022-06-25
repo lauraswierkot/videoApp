@@ -6,7 +6,8 @@
   <button (click)="setFilter(true)">show only favorites</button>
   <button (click)="setFilter(false)">show all</button>
   <button (click)="getDemoVideos()">get demo videos</button>
-  <div class="container">
+  <button (click)="toggleDisplay()">toggle display</button>
+  <div class="items-container" [ngClass]="{'list': displayType === 'list', 'grid': displayType === 'grid'}">
     <ng-container *ngFor="let item of videoList">
       <app-video-list-item
         [video]="item"

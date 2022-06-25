@@ -1,3 +1,19 @@
+.items-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  width: 100vw;
+}
+
+.list {
+  flex-direction: column;
+}
+
+.grid {
+ flex-direction: row;
+}
+
 .mat-paginator {
   position: fixed;
   left: 0;

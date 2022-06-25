@@ -1,3 +1,9 @@
-.video-list-item img {
-  width: 300px;  
+.video-list-item {
+  width: 25vw;
+  padding: 1em;
+  margin: 1em;
+}
+
+.title {
+  min-height: 3em;
 }
