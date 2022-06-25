@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { HttpService } from './http.service';
 import { VideoService } from './video.service';
 
 @Injectable({
@@ -26,4 +25,5 @@ export class FacadeService {
   public getVideoIdForPlayer(url: string) {
     return this.videoService.getVideoDataForPlayer(url);
   }
+
 }
