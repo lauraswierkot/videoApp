@@ -1,9 +1,37 @@
 .video-list-item {
-  width: 25vw;
-  padding: 1em;
-  margin: 1em;
+  flex-basis: 33%;
+  background-color: #f2f2f2;
+  box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
+}
+
+.video-list-item img {
+  width: 300px;
 }
 
 .title {
   min-height: 3em;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;    
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%; 
+}
+
+
+button {
+  border-radius: 5px;
+  border: none;
+  padding: 0.5em;
+  background-color: #e7e7e7;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #dddbdb;
 }

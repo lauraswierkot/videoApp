@@ -1,26 +1,29 @@
 <div class="wrapper">
-  <h1>your list</h1>
-  <button (click)="deleteAll()">delete all</button>
-  <button (click)="setSortType(sortOptions.ASC)">sort asc</button>
-  <button (click)="setSortType(sortOptions.DESC)">sort desc</button>
-  <button (click)="setFilter(true)">show only favorites</button>
-  <button (click)="setFilter(false)">show all</button>
-  <button (click)="getDemoVideos()">get demo videos</button>
-  <button (click)="toggleDisplay()">toggle display</button>
-  <div class="items-container" [ngClass]="{'list': displayType === 'list', 'grid': displayType === 'grid'}">
-    <ng-container *ngFor="let item of videoList">
-      <app-video-list-item
-        [video]="item"
-        (videoDeleted)="delete($event)"
-        (videoFavourite)="setAsFavorite($event)"
-        (videoPlayer)="playVideo($event)">
-      </app-video-list-item>
-    </ng-container>
+  <div class="buttons-container">
+    <button (click)="deleteAll()">delete all</button>
+    <button (click)="setSortType(sortOptions.ASC)">sort asc</button>
+    <button (click)="setSortType(sortOptions.DESC)">sort desc</button>
+    <button (click)="setFilter(true)">show only favorites</button>
+    <button (click)="setFilter(false)">show all</button>
+    <button (click)="getDemoVideos()">get demo videos</button>
+    <button (click)="toggleDisplay()">toggle display</button>
   </div>
 </div>
+
+<div class="items-container" [ngClass]="{ list: displayType === 'list', grid: displayType === 'grid' }">
+  <ng-container *ngFor="let item of videoList">
+        <app-video-list-item class="video-list-item"
+          [video]="item"
+          (videoDeleted)="delete($event)"
+          (videoFavourite)="setAsFavorite($event)"
+          (videoPlayer)="playVideo($event)" > </app-video-list-item>
+  </ng-container>
+</div>
+
 <mat-paginator
   [length]="length"
   [pageSize]="pageSize"
   [pageSizeOptions]="pageSizeOptions"
-  (page)="setPaginator($event)">
+  (page)="setPaginator($event)"
+>
 </mat-paginator>
