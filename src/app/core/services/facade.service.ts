@@ -1,4 +1,5 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
+
 import { HttpService } from './http.service';
 import { VideoService } from './video.service';
 
@@ -7,8 +8,8 @@ import { VideoService } from './video.service';
 })
 export class FacadeService {
   public videoList$ = this.videoService.videosList$;
-  
-  constructor(private videoService: VideoService, private httpService: HttpService) {}
+
+  constructor(private videoService: VideoService) {}
 
   public getVideo(id: string): void {
     this.videoService.getVideo(id);
@@ -22,7 +23,7 @@ export class FacadeService {
     return this.videoService.setAsFavorite(id);
   }
 
-  public getYoutubeVideoId(id: string): string {
-    return this.httpService.getYoutubeVideoId(id);
+  public getVideoIdForPlayer(url: string) {
+    return this.videoService.getVideoDataForPlayer(url);
   }
 }

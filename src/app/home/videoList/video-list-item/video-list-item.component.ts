@@ -10,14 +10,11 @@ import { VideoDialogComponent } from './video-dialog/video-dialog.component';
   styleUrls: ['./video-list-item.component.css'],
 })
 export class VideoListItemComponent {
+  public id: string = "";
   @Input() video: Video;
   @Output() videoDeleted: EventEmitter<string> = new EventEmitter<string>();
   @Output() videoFavourite: EventEmitter<string> = new EventEmitter<string>();
-
-  constructor(
-    private dialog: MatDialog,
-    private facadeService: FacadeService
-  ) {}
+  @Output() videoPlayer: EventEmitter<string> = new EventEmitter<string>();
 
   public delete(id: string): void {
     this.videoDeleted.emit(id);
@@ -27,21 +24,7 @@ export class VideoListItemComponent {
     this.videoFavourite.emit(id);
   }
 
-  public openDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = this.getUrl();
-    dialogConfig.disableClose = false;
-    this.dialog.open(VideoDialogComponent, dialogConfig);
-  }
-
-  public getUrl(): string {
-    let id = this.video.id;
-    const ytIdDigitsLength: number = 11;
-    if (id.length == ytIdDigitsLength || id.includes('you')) {
-      id = this.facadeService.getYoutubeVideoId(id);
-      return `https://www.youtube.com/embed/${id}`;
-    } else {
-      return `https://player.vimeo.com/video/${id}`;
-    }
+  public playVideo(id: string): void {
+    this.videoPlayer.emit(id);
   }
 }

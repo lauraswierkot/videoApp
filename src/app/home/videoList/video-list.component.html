@@ -2,7 +2,7 @@
     <h1>your list</h1>
     <ul>
       <li *ngFor="let item of videoList">
-        <app-video-list-item [video]="item" (videoDeleted)="delete($event)" (videoFavourite)="setAsFavorite($event)"></app-video-list-item>
+        <app-video-list-item [video]="item" (videoDeleted)="delete($event)" (videoFavourite)="setAsFavorite($event)" (videoPlayer)="playVideo($event)"></app-video-list-item>
       </li>
     </ul>
 </div>

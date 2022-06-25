@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-video-dialog',
@@ -8,17 +8,17 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./video-dialog.component.css'],
 })
 export class VideoDialogComponent {
-  public url: any;
+  public url: SafeResourceUrl;
 
   constructor(
     private dialogRef: MatDialogRef<VideoDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: string,
-    sanitizer: DomSanitizer
+    @Inject(MAT_DIALOG_DATA) public data: string,
+    public sanitizer: DomSanitizer
   ) {
     this.url = sanitizer.bypassSecurityTrustResourceUrl(data);
   }
 
-  close() {
+  public close(): void {
     this.dialogRef.close();
   }
 }
