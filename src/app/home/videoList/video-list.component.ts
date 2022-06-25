@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Video } from 'src/app/core/model/video';
-import { FacadeService } from 'src/app/core';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
+import { FacadeService, VideoType } from 'src/app/core';
+import { SortType } from 'src/app/core/utils/sort-type';
+import { VideoDialogComponent } from './video-list-item/video-dialog/video-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -14,13 +16,17 @@ import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality
 })
 export class VideoListComponent implements OnInit, OnDestroy {
   public videoList: Video[] = [];
-  public unfilteredVideoList: Video[] = [];
+
   public length: number = 0;
   public pageSize: number = 3;
   public pageIndex: number = 0;
   public pageSizeOptions: number[] = [3, 6, 9];
 
-  constructor(private facadeService: FacadeService) {}
+  public sortType: SortType = SortType.DESC;
+  public sortOptions = SortType;
+  public showOnlyFavorites: boolean = false;
+
+  constructor(private facadeService: FacadeService, private dialog: MatDialog) {}
 
   public ngOnInit(): void {
     this.getVideos();
@@ -46,57 +52,78 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.facadeService.getDemoVideos();
   }
 
-  public sortAsc(): void {
-    this.unfilteredVideoList.sort(
-      (a, b) =>
-        new Date(b.createdAt).getDate() - new Date(a.createdAt).getTime()
-    );
-    this.paginateUnfilteredList();
+  public playVideo(url: string): void {
+    let playerUrl = '';
+    const videoData = this.facadeService.getVideoIdForPlayer(url);
+    if (videoData.videoType === VideoType.YOUTUBE) {
+      playerUrl = `https://www.youtube.com/embed/${videoData.url}`;
+    }
+    if (videoData.videoType === VideoType.VIMEO) {
+      playerUrl = `https://player.vimeo.com/video/${videoData.url}`;
+    }
+    this.openDialog(playerUrl);
   }
 
-  public sortDesc(): void {
-    this.unfilteredVideoList.sort(
-      (a, b) =>
-        new Date(a.createdAt).getDate() - new Date(b.createdAt).getTime()
-    );
-   this.paginateUnfilteredList();
+  public openDialog(id: string): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = id;
+    dialogConfig.disableClose = false;
+    this.dialog.open(VideoDialogComponent, dialogConfig);
   }
 
-  public filterFavorites(): void {
-    this.unfilteredVideoList = this.videoList.filter(
-      (value) => value.isFavorite !== false
-    );
-    this.paginateUnfilteredList();
-  }
-
-  public showAll(): void {
+  public setFilter(showOnlyFavorites: boolean): void {
+    this.showOnlyFavorites = showOnlyFavorites;
+    this.pageIndex = 0;
     this.getVideos();
   }
 
-  public paginate(event: any): void {
+  public setSortType(sortType: SortType): void {
+    this.sortType = sortType;
+    this.getVideos(); 
+  }
+
+  public setPaginator(event: any): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getVideos();
   }
-
+  
   private getVideos(): void {
     this.facadeService.videoList$
       .pipe(untilDestroyed(this))
-      .subscribe((value) => {
-        this.unfilteredVideoList = value;
-        this.length = value.length;
-        this.videoList = value.slice(
-          Number(this.pageIndex * this.pageSize),
-          (this.pageIndex + Number(1)) * this.pageSize
-        );
+      .subscribe((value) => { 
+        this.videoList = value 
+        this.filter();
+        this.length = this.videoList.length;
+        this.sortList();
+        this.paginateList();
       });
   }
 
-  private paginateUnfilteredList(): Video[] {
-    this.videoList = this.unfilteredVideoList.slice(
+  private paginateList(): void {
+    this.videoList = this.videoList.slice(
       Number(this.pageIndex * this.pageSize),
       (this.pageIndex + Number(1)) * this.pageSize
     );
-    return this.videoList;
+  }
+
+  private sortList(): void {
+    if(this.sortType === SortType.DESC) {
+      this.videoList = this.videoList.sort(
+        (a, b) =>
+          +new Date(b.createdAt).getTime() - +new Date(a.createdAt).getTime()
+      );
+    }
+    else {
+      this.videoList =  this.videoList.sort(
+        (a, b) =>
+          +new Date(a.createdAt).getTime() - +new Date(b.createdAt).getTime()
+      );
+    }
+  }
+  private filter(): void {
+    if(this.showOnlyFavorites === true) {
+      this.videoList = this.videoList.filter((value) => value.isFavorite === true);
+    }
   }
 }

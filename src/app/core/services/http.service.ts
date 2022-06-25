@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Video } from '../model/video';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -38,8 +38,7 @@ export class HttpService {
   constructor(private http: HttpClient) {}
 
   public getVimeoVideo(id: string): Observable<Video> {
-    let vimeoId = this.getVimeoVideoId(id);
-    const url = `${this.vimeoUrl}/${vimeoId}`;
+    const url = `${this.vimeoUrl}/${id}`;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.vimeoKey}`,
     });
@@ -56,9 +55,7 @@ export class HttpService {
   }
 
   public getYoutubeVideo(id: string): Observable<Video> {
-
-    let youtubeId = this.getYoutubeVideoId(id);
-    const url = `${this.youtubeUrl}?id=${youtubeId}&key=${this.youtubeKey}&part=snippet,statistics&fields=items(id,snippet(title,thumbnails),statistics(viewCount,likeCount))`;
+    const url = `${this.youtubeUrl}?id=${id}&key=${this.youtubeKey}&part=snippet,statistics&fields=items(id,snippet(title,thumbnails),statistics(viewCount,likeCount))`;
     return this.http.get<IYouTube>(url).pipe(
       map((response) => ({
         id: id,
@@ -70,17 +67,5 @@ export class HttpService {
         isFavorite: false
       }))
     );
-  }
-
-  private getYoutubeVideoId(url: string): string {
-    const regex =
-      /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/gi;
-    return url.replace(regex, `$1`);
-  }
-
-  private getVimeoVideoId(url: string): string {
-    const regex = 
-    /(?:http|https)?:?\/?\/?(?:www\.)?(?:player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)/;
-    return url.length > 8 ? url.match(regex)![1] : url;
   }
 }

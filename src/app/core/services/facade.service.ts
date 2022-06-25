@@ -1,6 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Video } from '../model/video';
+
 import { VideoService } from './video.service';
 
 @Injectable({
@@ -8,7 +7,7 @@ import { VideoService } from './video.service';
 })
 export class FacadeService {
   public videoList$ = this.videoService.videosList$;
-  
+
   constructor(private videoService: VideoService) {}
 
   public getVideo(id: string): void {
@@ -29,5 +28,9 @@ export class FacadeService {
 
   public getDemoVideos(): void {
     return this.videoService.getDemoVideos();
+  }
+
+  public getVideoIdForPlayer(url: string) {
+    return this.videoService.getVideoDataForPlayer(url);
   }
 }

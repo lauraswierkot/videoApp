@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Video } from '../model/video';
 import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
 import { HttpService } from './http.service';
+import { getVideoId } from '../utils/video-helper';
+import { VideoType } from '../utils/video-type';
 
 @Injectable({
   providedIn: 'root',
@@ -24,15 +26,19 @@ export class VideoService {
 
   public getVideo(id: string): void {
     let videoObservable$: Observable<Video>;
-    const ytIdDigitsLength: number = 11;
-    if (id.length == ytIdDigitsLength || id.includes('you')) {
-      videoObservable$ = this.httpService.getYoutubeVideo(id);
+    const result = getVideoId(id);
+    if (result.videoType === VideoType.YOUTUBE) {
+      videoObservable$ = this.httpService.getYoutubeVideo(result.url);
     } else {
-      videoObservable$ = this.httpService.getVimeoVideo(id);
+      videoObservable$ = this.httpService.getVimeoVideo(result.url);
     }
     videoObservable$.pipe(take(1)).subscribe((value: Video) => {
       this.saveVideo(value);
     });
+  }
+
+  public getVideoDataForPlayer(url: string) {
+    return getVideoId(url);
   }
 
   public deleteVideo(id: string): void {
@@ -59,7 +65,7 @@ export class VideoService {
     const url1: string = 'BwknA6aGqvs';
     const url2: string = 'zN6zF8AaDA4';
     const url3: string = 'eIAEy5aOb9g';
-    const videos: string[] = [url1, url2, url3, url1, url2, url3, url1, url2, url3, url1, url2, url3];
+    const videos: string[] = [url1, url2, url3];
     videos.forEach((element) => {
       this.getVideo(element);
     });
