@@ -18,11 +18,13 @@
           (videoFavourite)="setAsFavorite($event)"
           (videoPlayer)="playVideo($event)" > </app-video-list-item>
   </ng-container>
-</div>
 
-<mat-paginator
+  <mat-paginator
   [length]="length"
   [pageSize]="pageSize"
   [pageSizeOptions]="pageSizeOptions"
   (page)="setPaginator($event)">
 </mat-paginator>
+
+</div>
+

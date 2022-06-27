@@ -6,7 +6,7 @@
 
 .video-list-item img {
   width: 280px;
-    height: 168px;
+  height: 168px;
   border-radius: 5px;
   transition: 0.5s ease-out;
   object-fit: cover;
@@ -18,7 +18,8 @@ opacity: 0.5;
 }
 
 .title {
-  min-height: 3em;
+  min-height: 3em; 
+  font-size: medium;   
 }
 
 .buttons-container {

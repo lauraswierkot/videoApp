@@ -34,7 +34,8 @@
 }
 
 .video-list-item{
-  flex-basis: 30%;    
+  flex-basis: 30%;  
+  margin-top: 5%;  
   text-align: -webkit-center;
 }
  
@@ -62,7 +63,6 @@ button:hover {
 }
 
 .mat-paginator {
-  position: relative;
   margin-top: 2em;
   left: 0;
   bottom: 0;
