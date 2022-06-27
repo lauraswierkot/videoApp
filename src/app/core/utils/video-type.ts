@@ -1,4 +1,4 @@
 export enum VideoType {
-    YOUTUBE = 'youtube',
-    VIMEO = 'vimeo',
-  }
+  YOUTUBE = 'youtube',
+  VIMEO = 'vimeo',
+}

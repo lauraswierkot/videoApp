@@ -28,7 +28,10 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   public displayType: string = 'list';
 
-  constructor(private facadeService: FacadeService, private dialog: MatDialog) {}
+  constructor(
+    private facadeService: FacadeService,
+    private dialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
     this.getVideos();
@@ -55,10 +58,9 @@ export class VideoListComponent implements OnInit, OnDestroy {
   }
 
   public toggleDisplay(): void {
-    if(this.displayType === 'list') {
+    if (this.displayType === 'list') {
       this.displayType = 'grid';
-    }
-    else {
+    } else {
       this.displayType = 'list';
     }
   }
@@ -67,10 +69,10 @@ export class VideoListComponent implements OnInit, OnDestroy {
     let playerUrl = '';
     const videoData = this.facadeService.getVideoIdForPlayer(url);
     if (videoData.videoType === VideoType.YOUTUBE) {
-      playerUrl = `https://www.youtube.com/embed/${videoData.url}`;
+      playerUrl = `https://www.youtube.com/embed/${videoData.id}`;
     }
     if (videoData.videoType === VideoType.VIMEO) {
-      playerUrl = `https://player.vimeo.com/video/${videoData.url}`;
+      playerUrl = `https://player.vimeo.com/video/${videoData.id}`;
     }
     this.openDialog(playerUrl);
   }
@@ -90,7 +92,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   public setSortType(sortType: SortType): void {
     this.sortType = sortType;
-    this.getVideos(); 
+    this.getVideos();
   }
 
   public setPaginator(event: any): void {
@@ -98,12 +100,12 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.pageSize = event.pageSize;
     this.getVideos();
   }
-  
+
   private getVideos(): void {
     this.facadeService.videoList$
       .pipe(untilDestroyed(this))
-      .subscribe((value) => { 
-        this.videoList = value 
+      .subscribe((value) => {
+        this.videoList = value;
         this.filter();
         this.length = this.videoList.length;
         this.sortList();
@@ -119,22 +121,24 @@ export class VideoListComponent implements OnInit, OnDestroy {
   }
 
   private sortList(): void {
-    if(this.sortType === SortType.DESC) {
+    if (this.sortType === SortType.DESC) {
       this.videoList = this.videoList.sort(
         (a, b) =>
           +new Date(b.createdAt).getTime() - +new Date(a.createdAt).getTime()
       );
-    }
-    else {
-      this.videoList =  this.videoList.sort(
+    } else {
+      this.videoList = this.videoList.sort(
         (a, b) =>
           +new Date(a.createdAt).getTime() - +new Date(b.createdAt).getTime()
       );
     }
   }
+
   private filter(): void {
-    if(this.showOnlyFavorites === true) {
-      this.videoList = this.videoList.filter((value) => value.isFavorite === true);
+    if (this.showOnlyFavorites === true) {
+      this.videoList = this.videoList.filter(
+        (value) => value.isFavorite === true
+      );
     }
   }
 }

@@ -1,16 +1,16 @@
 button {
-    border-radius: 5px;
-    border: none;
-    padding: 0.5em;
-    background-color: #e7e7e7;
-    justify-content: flex-end;
-  }
-  
-  button:hover {
-    cursor: pointer;
-    background-color: #dddbdb;
-  }
+  border-radius: 5px;
+  border: none;
+  padding: 0.5em;
+  background-color: #e7e7e7;
+  justify-content: flex-end;
+}
 
-  .mat-dialog-actions {
-    justify-content: flex-end;
-  }
+button:hover {
+  cursor: pointer;
+  background-color: #dddbdb;
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+}

@@ -1,6 +1,13 @@
 <div class="wrapper">
-    <form [formGroup]="searchbarForm" (ngSubmit)="onSubmit(searchbarForm)" class="form">
-        <input formControlName="searchPhrase" placeholder="paste your youtube / vimeo link here" name="item" required/><br>
-        <button class="submitButton" type="submit">add to the list</button><br>
-    </form>
+  <form
+    [formGroup]="searchbarForm"
+    (ngSubmit)="onSubmit(searchbarForm)"
+    class="form">
+    <input
+      formControlName="searchPhrase"
+      placeholder="paste your youtube / vimeo link here"
+      name="item"
+      required/><br />
+    <button class="submitButton" type="submit">add to the list</button><br />
+  </form>
 </div>

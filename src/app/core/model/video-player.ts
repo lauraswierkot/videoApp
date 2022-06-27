@@ -1,4 +1,4 @@
 export interface VideoPlayer {
-  url: string;
+  id: string;
   videoType: string;
 }
