@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Video } from '../model/video';
-import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 interface IVimeo {
   name: string;
@@ -54,8 +54,7 @@ export class HttpService {
   }
 
   public getYoutubeVideo(id: string): Observable<Video> {
-    let youtubeId = this.getYoutubeVideoId(id);
-    const url = `${this.youtubeUrl}?id=${youtubeId}&key=${this.youtubeKey}&part=snippet,statistics&fields=items(id,snippet(title,thumbnails),statistics(viewCount,likeCount))`;
+    const url = `${this.youtubeUrl}?id=${id}&key=${this.youtubeKey}&part=snippet,statistics&fields=items(id,snippet(title,thumbnails),statistics(viewCount,likeCount))`;
     return this.http.get<IYouTube>(url).pipe(
       map((response) => ({
         id: id,
@@ -66,11 +65,5 @@ export class HttpService {
         createdAt: new Date(),
       }))
     );
-  }
-
-  private getYoutubeVideoId(url: string): string {
-    const regex =
-      /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/gi;
-    return url.replace(regex, `$1`);
   }
 }

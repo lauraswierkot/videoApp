@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { Video } from '../model/video';
 import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
 import { HttpService } from './http.service';
+import { getVideoId } from '../utils/video-helper';
+import { VideoType } from '../utils/video-type';
+import { VideoPlayer } from '../model/video-player';
 
 @Injectable({
   providedIn: 'root',
@@ -24,15 +27,19 @@ export class VideoService {
 
   public getVideo(id: string): void {
     let videoObservable$: Observable<Video>;
-    const ytIdDigitsLength: number = 11;
-    if (id.length == ytIdDigitsLength || id.includes('you')) {
-      videoObservable$ = this.httpService.getYoutubeVideo(id);
+    const result = getVideoId(id);
+    if (result.videoType === VideoType.YOUTUBE) {
+      videoObservable$ = this.httpService.getYoutubeVideo(result.id);
     } else {
-      videoObservable$ = this.httpService.getVimeoVideo(id);
+      videoObservable$ = this.httpService.getVimeoVideo(result.id);
     }
     videoObservable$.pipe(take(1)).subscribe((value: Video) => {
       this.saveVideo(value);
     });
+  }
+
+  public getVideoDataForPlayer(url: string): VideoPlayer {
+    return getVideoId(url);
   }
 
   public deleteVideo(id: string): void {
