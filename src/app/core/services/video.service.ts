@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
 import { HttpService } from './http.service';
 import { getVideoId } from '../utils/video-helper';
 import { VideoType } from '../utils/video-type';
+import { VideoPlayer } from '../model/video-player';
 
 @Injectable({
   providedIn: 'root',
@@ -28,16 +29,16 @@ export class VideoService {
     let videoObservable$: Observable<Video>;
     const result = getVideoId(id);
     if (result.videoType === VideoType.YOUTUBE) {
-      videoObservable$ = this.httpService.getYoutubeVideo(result.url);
+      videoObservable$ = this.httpService.getYoutubeVideo(result.id);
     } else {
-      videoObservable$ = this.httpService.getVimeoVideo(result.url);
+      videoObservable$ = this.httpService.getVimeoVideo(result.id);
     }
     videoObservable$.pipe(take(1)).subscribe((value: Video) => {
       this.saveVideo(value);
     });
   }
 
-  public getVideoDataForPlayer(url: string) {
+  public getVideoDataForPlayer(url: string): VideoPlayer {
     return getVideoId(url);
   }
 

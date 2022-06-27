@@ -19,6 +19,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private facadeService: FacadeService
   ) {}
+
   public ngOnInit(): void {
     this.facadeService.videoList$
       .pipe(untilDestroyed(this))
@@ -42,11 +43,12 @@ export class VideoListComponent implements OnInit, OnDestroy {
   public playVideo(url: string): void {
     const videoData = this.facadeService.getVideoIdForPlayer(url);
     let playerUrl = '';
+
     if (videoData.videoType === VideoType.YOUTUBE) {
-      playerUrl = `https://www.youtube.com/embed/${videoData.url}`;
+      playerUrl = `https://www.youtube.com/embed/${videoData.id}`;
     }
     if (videoData.videoType === VideoType.VIMEO) {
-      playerUrl = `https://player.vimeo.com/video/${videoData.url}`;
+      playerUrl = `https://player.vimeo.com/video/${videoData.id}`;
     }
     this.openDialog(playerUrl);
   }

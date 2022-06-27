@@ -1,8 +1,13 @@
 <div class="wrapper">
-    <h1>your list</h1>
-    <ul>
-      <li *ngFor="let item of videoList">
-        <app-video-list-item [video]="item" (videoDeleted)="delete($event)" (videoFavourite)="setAsFavorite($event)" (videoPlayer)="playVideo($event)"></app-video-list-item>
-      </li>
-    </ul>
+  <h1>your list</h1>
+  <ul>
+    <li *ngFor="let item of videoList">
+      <app-video-list-item
+        [video]="item"
+        (videoDeleted)="delete($event)"
+        (videoFavourite)="setAsFavorite($event)"
+        (videoPlayer)="playVideo($event)"
+      ></app-video-list-item>
+    </li>
+  </ul>
 </div>

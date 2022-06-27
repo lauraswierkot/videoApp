@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { VideoPlayer } from '../model/video-player';
 
 import { VideoService } from './video.service';
 
@@ -22,7 +23,7 @@ export class FacadeService {
     return this.videoService.setAsFavorite(id);
   }
 
-  public getVideoIdForPlayer(url: string) {
+  public getVideoIdForPlayer(url: string): VideoPlayer {
     return this.videoService.getVideoDataForPlayer(url);
   }
 
