@@ -37,7 +37,6 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.getVideos();
-    this.getFavoriteVideos();
   }
 
   public ngOnDestroy(): void {
@@ -49,10 +48,9 @@ export class VideoListComponent implements OnInit, OnDestroy {
   }
 
   public setAsFavorite(id: string): void {
-
     this.facadeService.setAsFavorite(id);
     this.filter();
-    this.paginateList()
+    this.paginateList();
   }
 
   public deleteAll(): void {
@@ -93,13 +91,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
   public setFilter(showOnlyFavorites: boolean): void {
     this.showOnlyFavorites = showOnlyFavorites;
     this.pageIndex = 0;
-    if(showOnlyFavorites) {
-      this.videoList = this.favoritesList
-    } 
-    else
-    {
-      this.videoList=this.fullVideoList;
-    }
+    this.filter();
     this.length = this.videoList.length;
     this.paginateList();
   }
@@ -133,14 +125,6 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.paginateList();
   }
 
-  private getFavoriteVideos(): void {
-    this.facadeService.favoritesVideoList$
-      .pipe(untilDestroyed(this))
-      .subscribe((value) => {
-        this.favoritesList = value;
-      });
-  }
-
   private paginateList(): void {
     this.videoList = this.videoList.slice(
       Number(this.pageIndex * this.pageSize),
@@ -164,10 +148,9 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   private filter(): void {
     if (this.showOnlyFavorites === true) {
-      this.videoList = this.favoritesList;
-    }
-    else
-      console.log(this.fullVideoList)
-      this.videoList = this.fullVideoList;
+      this.videoList = this.fullVideoList.filter(
+        (value) => value.isFavorite === true
+      );
+    } else this.videoList = this.fullVideoList;
   }
 }

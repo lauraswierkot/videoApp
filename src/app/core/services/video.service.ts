@@ -12,28 +12,18 @@ import { VideoPlayer } from '../model/video-player';
 })
 export class VideoService {
   public _videosList$: Subject<Video[]> = new BehaviorSubject<Video[]>([]);
-  public _favoritesVideosList$: Subject<Video[]> = new BehaviorSubject<Video[]>([]);
   public video$: Subject<Video> = new Subject<Video>();
   public videos: Video[] = [];
-  
-  public favoriteVideos: Video[] = [];
 
   private localStorageList: string= 'Video List';
-  private localStorageListFavorites: string = 'Favorites List';
 
   constructor(private httpService: HttpService) {}
 
-  public get videosList$() {
+  public get videosList$(): Subject<Video[]> {
     this.videos = this.getFromLocalStorage(this.localStorageList);
     this._videosList$.next(this.videos);
     return this._videosList$;
-  }
-
-  public get favoritesVideosList$() {
-    this.favoriteVideos = this.getFromLocalStorage(this.localStorageListFavorites);
-    this._favoritesVideosList$.next(this.favoriteVideos);
-    return this._favoritesVideosList$;
-  }
+  } 
 
   public getVideo(id: string): void {
     let videoObservable$: Observable<Video>;
@@ -54,39 +44,22 @@ export class VideoService {
 
   public deleteVideo(id: string): void {
     this.videos = this.getFromLocalStorage(this.localStorageList);
-    this.favoriteVideos = this.getFromLocalStorage(this.localStorageListFavorites);
     this.videos = this.videos.filter((value) => value.id !== id);
-    this.favoriteVideos = this.favoriteVideos.filter((value) => value.id !== id);
     this.setInLocalStorage(this.videos, this.localStorageList);
-    this.setInLocalStorage(this.favoriteVideos, this.localStorageListFavorites);
     this._videosList$.next(this.videos);
-    this._favoritesVideosList$.next(this.favoriteVideos);
   }
   
   public setAsFavorite(id: string): void {
     this.videos = this.getFromLocalStorage(this.localStorageList);
-    if(this.favoriteVideos.findIndex((item)=>item.id===id) == -1)
-    {
-      this.videos.filter((value) => value.id === id)[0].isFavorite = true;
-      this.favoriteVideos.push(this.videos.filter((value) => value.id === id)[0]);
-    }
-    else {
-      this.videos.filter((value) => value.id === id)[0].isFavorite = false;
-      this.favoriteVideos = this.favoriteVideos.filter((item)=>item.id !== id);
-    }
-    this.setInLocalStorage(this.favoriteVideos, this.localStorageListFavorites);
+    this.videos.filter((value)=> value.id === id)[0].isFavorite = !this.videos.filter((value)=> value.id === id)[0].isFavorite;
     this.setInLocalStorage(this.videos, this.localStorageList);
-    this._favoritesVideosList$.next(this.favoriteVideos);
     this._videosList$.next(this.videos);
   }
 
   public deleteAll(): void {
     this.videos = [];
-    this.favoriteVideos = [];
     this.setInLocalStorage(this.videos, this.localStorageList);
-    this.setInLocalStorage(this.favoriteVideos, this.localStorageListFavorites);
     this._videosList$.next(this.videos);
-    this._favoritesVideosList$.next(this.favoriteVideos);
   }
 
   public getDemoVideos(): void {

@@ -4,8 +4,8 @@
   box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
 }
 
-.gold {
-  background-color: gold;
+.isFavorite {
+  background-color: #a1b1cd ;
 }
 
 .video-list-item img {
