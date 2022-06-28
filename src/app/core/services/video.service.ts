@@ -63,10 +63,7 @@ export class VideoService {
   }
 
   public getDemoVideos(): void {
-    const url1: string = 'BwknA6aGqvs';
-    const url2: string = 'zN6zF8AaDA4';
-    const url3: string = 'eIAEy5aOb9g';
-    const videos: string[] = [url1, url2, url3];
+    const videos: string[] = ['eIAEy5aOb9g','zN6zF8AaDA4','BwknA6aGqvs'];
     videos.forEach((element) => {
       this.getVideo(element);
     });

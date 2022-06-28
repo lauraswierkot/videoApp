@@ -10,21 +10,22 @@
   </div>
 </div>
 
-<div class="items-container" [ngClass]="{ list: displayType === 'list', grid: displayType === 'grid' }">
+<div
+  class="items-container"
+  [ngClass]="{ list: displayType === 'list', grid: displayType === 'grid' }">
   <ng-container *ngFor="let item of videoList">
-        <app-video-list-item class="video-list-item"
-          [video]="item"
-          (videoDeleted)="delete($event)"
-          (videoFavourite)="setAsFavorite($event)"
-          (videoPlayer)="playVideo($event)" > </app-video-list-item>
+    <app-video-list-item
+      class="video-list-item"
+      [video]="item"
+      (videoDeleted)="delete($event)"
+      (videoFavourite)="setAsFavorite($event)"
+      (videoPlayer)="playVideo($event)">
+    </app-video-list-item>
   </ng-container>
-
   <mat-paginator
-  [length]="length"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="setPaginator($event)">
-</mat-paginator>
-
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="setPaginator($event)">
+  </mat-paginator>
 </div>
-

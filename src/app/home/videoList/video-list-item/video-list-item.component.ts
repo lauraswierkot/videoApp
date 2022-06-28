@@ -7,9 +7,7 @@ import { Video } from 'src/app/core';
   templateUrl: './video-list-item.component.html',
   styleUrls: ['./video-list-item.component.css'],
 })
-export class VideoListItemComponent {
-  public id: string = "";
-  
+export class VideoListItemComponent {  
   @Input() video: Video;
   @Output() videoDeleted: EventEmitter<string> = new EventEmitter<string>();
   @Output() videoFavourite: EventEmitter<string> = new EventEmitter<string>();

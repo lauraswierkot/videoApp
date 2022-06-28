@@ -16,17 +16,18 @@ import { VideoDialogComponent } from './video-list-item/video-dialog/video-dialo
 })
 export class VideoListComponent implements OnInit, OnDestroy {
   public videoList: Video[] = [];
+  private fullvideoList: Video[] = [];
 
   public length: number = 0;
   public pageSize: number = 3;
-  public pageIndex: number = 0;
   public pageSizeOptions: number[] = [3, 6, 9];
-
-  public sortType: SortType = SortType.DESC;
-  public sortOptions = SortType;
-  public showOnlyFavorites: boolean = false;
+  private pageIndex: number = 0;
 
   public displayType: string = 'list';
+
+  public sortOptions = SortType;
+  private showOnlyFavorites: boolean = false;
+  private sortType: SortType = SortType.DESC;
 
   constructor(
     private facadeService: FacadeService,
@@ -92,13 +93,13 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   public setSortType(sortType: SortType): void {
     this.sortType = sortType;
-    this.getVideos();
+    this.getFullList();
   }
 
   public setPaginator(event: any): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.getVideos();
+    this.getFullList();
   }
 
   private getVideos(): void {
@@ -106,11 +107,17 @@ export class VideoListComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((value) => {
         this.videoList = value;
-        this.filter();
-        this.length = this.videoList.length;
-        this.sortList();
-        this.paginateList();
+        this.fullvideoList = value;
+        this.getFullList();
       });
+  }
+
+  private getFullList(): void {
+    this.videoList = this.fullvideoList;
+    this.sortList();
+    this.filter();
+    this.length = this.videoList.length;
+    this.paginateList();
   }
 
   private paginateList(): void {
