@@ -8,6 +8,7 @@ import { VideoService } from './video.service';
 })
 export class FacadeService {
   public videoList$ = this.videoService.videosList$;
+  public favoritesVideoList$ = this.videoService.favoritesVideosList$
 
   constructor(private videoService: VideoService) {}
 

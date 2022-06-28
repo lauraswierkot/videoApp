@@ -4,6 +4,10 @@
   box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
 }
 
+.gold {
+  background-color: gold;
+}
+
 .video-list-item img {
   width: 280px;
   height: 168px;

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -16,7 +16,8 @@ import { VideoDialogComponent } from './video-list-item/video-dialog/video-dialo
 })
 export class VideoListComponent implements OnInit, OnDestroy {
   public videoList: Video[] = [];
-  private fullvideoList: Video[] = [];
+  private fullVideoList: Video[] = [];
+  public favoritesList: Video[] = [];
 
   public length: number = 0;
   public pageSize: number = 3;
@@ -36,6 +37,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.getVideos();
+    this.getFavoriteVideos();
   }
 
   public ngOnDestroy(): void {
@@ -47,7 +49,10 @@ export class VideoListComponent implements OnInit, OnDestroy {
   }
 
   public setAsFavorite(id: string): void {
+
     this.facadeService.setAsFavorite(id);
+    this.filter();
+    this.paginateList()
   }
 
   public deleteAll(): void {
@@ -88,7 +93,15 @@ export class VideoListComponent implements OnInit, OnDestroy {
   public setFilter(showOnlyFavorites: boolean): void {
     this.showOnlyFavorites = showOnlyFavorites;
     this.pageIndex = 0;
-    this.getVideos();
+    if(showOnlyFavorites) {
+      this.videoList = this.favoritesList
+    } 
+    else
+    {
+      this.videoList=this.fullVideoList;
+    }
+    this.length = this.videoList.length;
+    this.paginateList();
   }
 
   public setSortType(sortType: SortType): void {
@@ -107,17 +120,25 @@ export class VideoListComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((value) => {
         this.videoList = value;
-        this.fullvideoList = value;
+        this.fullVideoList = value;
         this.getFullList();
       });
   }
 
   private getFullList(): void {
-    this.videoList = this.fullvideoList;
+    this.videoList = this.fullVideoList;
     this.sortList();
     this.filter();
     this.length = this.videoList.length;
     this.paginateList();
+  }
+
+  private getFavoriteVideos(): void {
+    this.facadeService.favoritesVideoList$
+      .pipe(untilDestroyed(this))
+      .subscribe((value) => {
+        this.favoritesList = value;
+      });
   }
 
   private paginateList(): void {
@@ -143,9 +164,10 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   private filter(): void {
     if (this.showOnlyFavorites === true) {
-      this.videoList = this.videoList.filter(
-        (value) => value.isFavorite === true
-      );
+      this.videoList = this.favoritesList;
     }
+    else
+      console.log(this.fullVideoList)
+      this.videoList = this.fullVideoList;
   }
 }
