@@ -8,6 +8,7 @@ import { Video } from 'src/app/core/model/video';
 import { FacadeService, VideoType } from 'src/app/core';
 import { SortType } from 'src/app/core/utils/sort-type';
 import { VideoDialogComponent } from './video-list-item/video-dialog/video-dialog.component';
+import { cloneDeep } from 'lodash';
 
 @UntilDestroy()
 @Component({
@@ -118,7 +119,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
   }
 
   private getFullList(): void {
-    this.videoList = this.fullVideoList;
+    this.videoList = cloneDeep(this.fullVideoList);
     this.sortList();
     this.filter();
     this.length = this.videoList.length;
@@ -134,12 +135,12 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   private sortList(): void {
     if (this.sortType === SortType.DESC) {
-      this.videoList = this.videoList.sort(
+      this.videoList = this.fullVideoList.sort(
         (a, b) =>
           +new Date(b.createdAt).getTime() - +new Date(a.createdAt).getTime()
       );
     } else {
-      this.videoList = this.videoList.sort(
+      this.videoList = this.fullVideoList.sort(
         (a, b) =>
           +new Date(a.createdAt).getTime() - +new Date(b.createdAt).getTime()
       );
