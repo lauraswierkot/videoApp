@@ -55,11 +55,22 @@ button {
   border: none;
   padding: 0.5em;
   background-color: #e7e7e7;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
 }
 
 button:hover {
   cursor: pointer;
   background-color: #dddbdb;
+}
+
+.delete { 
+  background-color: #ce9a9a;
+}
+
+.delete:hover {
+  background-color: #cd8a8a !important;
 }
 
 .mat-paginator {

@@ -8,13 +8,17 @@
     added to library: {{ video?.createdAt | date: "dd/MM/yyyy" }}
   </mat-card-content>
   <mat-card-actions class="buttons-container">
-    <button type="button" (click)="delete(video.id)">delete</button>
+    <button type="button" (click)="delete(video.id)">
+      <span class="material-icons">delete</span>
+    </button>
     <button
       type="button"
       (click)="setAsFavorite(video.id)"
       [ngClass]="{ isFavorite: video.isFavorite }">
-      favorite
+      <span class="material-icons">favorite</span>
     </button>
-    <button mat-raised-button (click)="playVideo(video.id)">watch</button>
+    <button mat-raised-button (click)="playVideo(video.id)">
+      <span class="material-icons">play_circle_filled</span>
+    </button>
   </mat-card-actions>
 </mat-card>
