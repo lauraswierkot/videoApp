@@ -23,8 +23,15 @@ export class FacadeService {
     return this.videoService.setAsFavorite(id);
   }
 
+  public deleteAll(): void {
+    return this.videoService.deleteAll();
+  }
+
+  public getDemoVideos(): void {
+    return this.videoService.getDemoVideos();
+  }
+
   public getVideoIdForPlayer(url: string): VideoPlayer {
     return this.videoService.getVideoDataForPlayer(url);
   }
-
 }

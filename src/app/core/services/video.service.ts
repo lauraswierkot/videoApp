@@ -15,15 +15,15 @@ export class VideoService {
   public video$: Subject<Video> = new Subject<Video>();
   public videos: Video[] = [];
 
-  private localStorageList = 'Video List';
+  private localStorageList: string= 'Video List';
 
   constructor(private httpService: HttpService) {}
 
-  public get videosList$() {
-    this.videos = this.getFromLocalStorage();
+  public get videosList$(): Subject<Video[]> {
+    this.videos = this.getFromLocalStorage(this.localStorageList);
     this._videosList$.next(this.videos);
     return this._videosList$;
-  }
+  } 
 
   public getVideo(id: string): void {
     let videoObservable$: Observable<Video>;
@@ -43,36 +43,50 @@ export class VideoService {
   }
 
   public deleteVideo(id: string): void {
-    this.videos = this.getFromLocalStorage();
+    this.videos = this.getFromLocalStorage(this.localStorageList);
     this.videos = this.videos.filter((value) => value.id !== id);
-    this.setInLocalStorage(this.videos);
+    this.setInLocalStorage(this.videos, this.localStorageList);
+    this._videosList$.next(this.videos);
+  }
+  
+  public setAsFavorite(id: string): void {
+    this.videos = this.getFromLocalStorage(this.localStorageList);
+    let index = this.videos.findIndex((value)=> value.id === id)
+    this.videos[index].isFavorite = !this.videos[index].isFavorite ;
+    this.setInLocalStorage(this.videos, this.localStorageList);
     this._videosList$.next(this.videos);
   }
 
-  public setAsFavorite(id: string): void {
-    this.videos = this.getFromLocalStorage();
-    this.videos.filter((value) => value.id === id)[0].isFavorite = true;
-    this.setInLocalStorage(this.videos);
+  public deleteAll(): void {
+    this.videos = [];
+    this.setInLocalStorage(this.videos, this.localStorageList);
     this._videosList$.next(this.videos);
+  }
+
+  public getDemoVideos(): void {
+    const videos: string[] = ['eIAEy5aOb9g','zN6zF8AaDA4','BwknA6aGqvs'];
+    videos.forEach((element) => {
+      this.getVideo(element);
+    });
   }
 
   private saveVideo(item: Video): void {
-    this.videos = this.getFromLocalStorage();
+    this.videos = this.getFromLocalStorage(this.localStorageList);
     this.videos.push(item);
-    this.setInLocalStorage(this.videos);
+    this.setInLocalStorage(this.videos, this.localStorageList);
     this._videosList$.next(this.videos);
     this.video$.next(item);
   }
 
-  private getFromLocalStorage(): Video[] {
-    const storedVideos = localStorage.getItem(this.localStorageList);
+  private getFromLocalStorage(key: string): Video[] {
+    const storedVideos = localStorage.getItem(key);
     if (storedVideos !== null) {
       return JSON.parse(storedVideos);
     }
     return [];
   }
 
-  private setInLocalStorage(videos: Video[]): void {
-    localStorage.setItem(this.localStorageList, JSON.stringify(videos));
+  private setInLocalStorage(videos: Video[], key: string): void {
+    localStorage.setItem(key, JSON.stringify(videos));
   }
 }

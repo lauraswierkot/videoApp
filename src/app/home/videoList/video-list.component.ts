@@ -1,10 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Video } from 'src/app/core/model/video';
 import { FacadeService, VideoType } from 'src/app/core';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { SortType } from 'src/app/core/utils/sort-type';
 import { VideoDialogComponent } from './video-list-item/video-dialog/video-dialog.component';
+import { cloneDeep } from 'lodash';
 
 @UntilDestroy()
 @Component({
@@ -14,18 +18,26 @@ import { VideoDialogComponent } from './video-list-item/video-dialog/video-dialo
 })
 export class VideoListComponent implements OnInit, OnDestroy {
   public videoList: Video[] = [];
+  private fullVideoList: Video[] = [];
+
+  public length: number = 0;
+  public pageSize: number = 3;
+  public pageSizeOptions: number[] = [3, 6, 9];
+  private pageIndex: number = 0;
+
+  public displayType: string = 'list';
+
+  public sortOptions = SortType;
+  public showOnlyFavorites: boolean = false;
+  private sortType: SortType = SortType.DESC;
 
   constructor(
-    private dialog: MatDialog,
-    private facadeService: FacadeService
+    private facadeService: FacadeService,
+    private dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
-    this.facadeService.videoList$
-      .pipe(untilDestroyed(this))
-      .subscribe((value) => {
-        this.videoList = value;
-      });
+    this.getVideos();
   }
 
   public ngOnDestroy(): void {
@@ -38,12 +50,29 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   public setAsFavorite(id: string): void {
     this.facadeService.setAsFavorite(id);
+    this.filter();
+    this.paginateList();
+  }
+
+  public deleteAll(): void {
+    this.facadeService.deleteAll();
+  }
+
+  public getDemoVideos(): void {
+    this.facadeService.getDemoVideos();
+  }
+
+  public toggleDisplay(): void {
+    if (this.displayType === 'list') {
+      this.displayType = 'grid';
+    } else {
+      this.displayType = 'list';
+    }
   }
 
   public playVideo(url: string): void {
-    const videoData = this.facadeService.getVideoIdForPlayer(url);
     let playerUrl = '';
-
+    const videoData = this.facadeService.getVideoIdForPlayer(url);
     if (videoData.videoType === VideoType.YOUTUBE) {
       playerUrl = `https://www.youtube.com/embed/${videoData.id}`;
     }
@@ -58,5 +87,71 @@ export class VideoListComponent implements OnInit, OnDestroy {
     dialogConfig.data = id;
     dialogConfig.disableClose = false;
     this.dialog.open(VideoDialogComponent, dialogConfig);
+  }
+
+  public toggleFavorites(): void {
+    this.showOnlyFavorites = !this.showOnlyFavorites;
+    this.pageIndex = 0;
+    this.filter();
+    this.length = this.videoList.length;
+    this.paginateList();
+  }
+
+  public setSortType(sortType: SortType): void {
+    this.sortType = sortType;
+    this.getFullList();
+  }
+
+  public setPaginator(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.getFullList();
+  }
+
+  private getVideos(): void {
+    this.facadeService.videoList$
+      .pipe(untilDestroyed(this))
+      .subscribe((value) => {
+        this.fullVideoList = value;
+        this.getFullList();
+      });
+  }
+
+  private getFullList(): void {
+    this.videoList = cloneDeep(this.fullVideoList);
+    this.sortList();
+    this.filter();
+    this.length = this.videoList.length;
+    this.paginateList();
+  }
+
+  private paginateList(): void {
+    this.videoList = this.videoList.slice(
+      Number(this.pageIndex * this.pageSize),
+      (this.pageIndex + Number(1)) * this.pageSize
+    );
+  }
+
+  private sortList(): void {
+    if (this.sortType === SortType.DESC) {
+      this.videoList = this.fullVideoList.sort(
+        (a, b) =>
+          +new Date(b.createdAt).getTime() - +new Date(a.createdAt).getTime()
+      );
+    } else {
+      this.videoList = this.fullVideoList.sort(
+        (a, b) =>
+          +new Date(a.createdAt).getTime() - +new Date(b.createdAt).getTime()
+      );
+    }
+  }
+
+  private filter(): Video[] {
+    if (this.showOnlyFavorites) {
+      return (this.videoList = this.fullVideoList.filter(
+        (value) => value.isFavorite
+      ));
+    }
+    return (this.videoList = this.fullVideoList);
   }
 }
