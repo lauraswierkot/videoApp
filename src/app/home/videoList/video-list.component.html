@@ -1,15 +1,21 @@
 <div class="wrapper">
   <div class="buttons-container">
-    <button (click)="deleteAll()" class="delete">Delete all</button><br>
-    <button (click)="getDemoVideos()">Demo videos</button><br>
-    <button (click)="setSortType(sortOptions.ASC)">Asc 
-      <span class="material-icons">arrow_upward</span>
-    </button>
-    <button (click)="setSortType(sortOptions.DESC)">Desc 
-      <span class="material-icons">arrow_downward</span>
-    </button><br>
-    <button (click)="toggleFavorites()">{{ showOnlyFavorites ? 'Show all' : 'Only favorites' }}</button><br><br>
-    <button (click)="toggleDisplay()">{{ displayType === 'list' ? 'List' : 'Grid' }}</button>
+    <div class="button-group">
+      <button (click)="deleteAll()" id="delete">Delete all</button>
+      <button (click)="getDemoVideos()">Demo videos</button>
+    </div>
+    <div class="button-group">
+      <button (click)="setSortType(sortOptions.ASC)">Asc 
+        <span class="material-icons">arrow_upward</span>
+      </button>
+      <button (click)="setSortType(sortOptions.DESC)">Desc 
+        <span class="material-icons">arrow_downward</span>
+      </button>
+    </div>
+    <div class="button-group">
+      <button (click)="toggleFavorites()" >{{ showOnlyFavorites ? 'Show all' : 'Only favorites' }}</button>
+      <button (click)="toggleDisplay()">{{ displayType === 'list' ? 'List' : 'Grid' }}</button>
+    </div>
   </div>
 </div>
 <div
