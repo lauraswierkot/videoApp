@@ -19,7 +19,6 @@ import { cloneDeep } from 'lodash';
 export class VideoListComponent implements OnInit, OnDestroy {
   public videoList: Video[] = [];
   private fullVideoList: Video[] = [];
-  public favoritesList: Video[] = [];
 
   public length: number = 0;
   public pageSize: number = 3;
@@ -90,7 +89,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.dialog.open(VideoDialogComponent, dialogConfig);
   }
 
-  public setFilter(): void {
+  public toggleFavorites(): void {
     this.showOnlyFavorites = !this.showOnlyFavorites;
     this.pageIndex = 0;
     this.filter();

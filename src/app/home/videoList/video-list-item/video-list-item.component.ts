@@ -10,7 +10,7 @@ import { Video } from 'src/app/core';
 export class VideoListItemComponent {
   @Input() video: Video;
   @Output() videoDeleted: EventEmitter<string> = new EventEmitter<string>();
-  @Output() videoFavourite: EventEmitter<string> = new EventEmitter<string>();
+  @Output() videoFavorite: EventEmitter<string> = new EventEmitter<string>();
   @Output() videoPlayer: EventEmitter<string> = new EventEmitter<string>();
 
   public delete(id: string): void {
@@ -18,7 +18,7 @@ export class VideoListItemComponent {
   }
 
   public setAsFavorite(id: string): void {
-    this.videoFavourite.emit(id);
+    this.videoFavorite.emit(id);
   }
 
   public playVideo(id: string): void {

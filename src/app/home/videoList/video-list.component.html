@@ -3,7 +3,7 @@
     <button (click)="deleteAll()">delete all</button>
     <button (click)="setSortType(sortOptions.ASC)">sort asc</button>
     <button (click)="setSortType(sortOptions.DESC)">sort desc</button>
-    <button (click)="setFilter()"><span *ngIf="showOnlyFavorites">show all</span><span *ngIf="!showOnlyFavorites">show only favorites</span></button>
+    <button (click)="toggleFavorites()">{{ showOnlyFavorites ? 'show all' : 'show only favorites' }}</button>
     <button (click)="getDemoVideos()">get demo videos</button>
     <button (click)="toggleDisplay()">toggle display</button>
   </div>
@@ -16,7 +16,7 @@
       class="video-list-item"
       [video]="item"
       (videoDeleted)="delete($event)"
-      (videoFavourite)="setAsFavorite($event)"
+      (videoFavorite)="setAsFavorite($event)"
       (videoPlayer)="playVideo($event)">
     </app-video-list-item>
   </ng-container>
