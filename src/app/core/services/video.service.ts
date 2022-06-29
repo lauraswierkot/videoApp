@@ -51,7 +51,8 @@ export class VideoService {
   
   public setAsFavorite(id: string): void {
     this.videos = this.getFromLocalStorage(this.localStorageList);
-    this.videos.filter((value)=> value.id === id)[0].isFavorite = !this.videos.filter((value)=> value.id === id)[0].isFavorite;
+    let index = this.videos.findIndex((value)=> value.id === id)
+    this.videos[index].isFavorite = !this.videos[index].isFavorite ;
     this.setInLocalStorage(this.videos, this.localStorageList);
     this._videosList$.next(this.videos);
   }

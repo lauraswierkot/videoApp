@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -27,7 +28,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
   public displayType: string = 'list';
 
   public sortOptions = SortType;
-  private showOnlyFavorites: boolean = false;
+  public showOnlyFavorites: boolean = false;
   private sortType: SortType = SortType.DESC;
 
   constructor(
@@ -88,8 +89,8 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.dialog.open(VideoDialogComponent, dialogConfig);
   }
 
-  public setFilter(showOnlyFavorites: boolean): void {
-    this.showOnlyFavorites = showOnlyFavorites;
+  public setFilter(): void {
+    this.showOnlyFavorites = !this.showOnlyFavorites;
     this.pageIndex = 0;
     this.filter();
     this.length = this.videoList.length;
@@ -101,7 +102,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.getFullList();
   }
 
-  public setPaginator(event: any): void {
+  public setPaginator(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getFullList();
@@ -111,7 +112,6 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.facadeService.videoList$
       .pipe(untilDestroyed(this))
       .subscribe((value) => {
-        this.videoList = value;
         this.fullVideoList = value;
         this.getFullList();
       });
@@ -146,11 +146,12 @@ export class VideoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private filter(): void {
-    if (this.showOnlyFavorites === true) {
-      this.videoList = this.fullVideoList.filter(
-        (value) => value.isFavorite === true
-      );
-    } else this.videoList = this.fullVideoList;
+  private filter(): Video[] {
+    if (this.showOnlyFavorites) {
+      return (this.videoList = this.fullVideoList.filter(
+        (value) => value.isFavorite
+      ));
+    }
+    return (this.videoList = this.fullVideoList);
   }
 }
