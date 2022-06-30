@@ -3,7 +3,9 @@ button {
   border: none;
   padding: 0.5em;
   background-color: #e7e7e7;
-  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 button:hover {
