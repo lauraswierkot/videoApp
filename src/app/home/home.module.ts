@@ -8,6 +8,7 @@ import {
   SearchbarComponent,
   VideoListItemComponent,
   VideoDialogComponent,
+  VideoPageComponent
 } from './index';
 import { MaterialModule } from './material-module/material.module';
 
@@ -17,6 +18,7 @@ const components = [
   SearchbarComponent,
   VideoListItemComponent,
   VideoDialogComponent,
+  VideoPageComponent
 ];
 
 @NgModule({

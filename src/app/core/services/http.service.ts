@@ -49,7 +49,7 @@ export class HttpService {
         thumbnail: response.pictures.base_link,
         likeCount: response.metadata.connections.likes.total.toString(),
         createdAt: new Date(),
-        isFavorite: false
+        isFavorite: false,
       }))
     );
   }
@@ -64,7 +64,7 @@ export class HttpService {
         likeCount: response.items[0]?.statistics?.likeCount,
         viewCount: response.items[0]?.statistics?.viewCount,
         createdAt: new Date(),
-        isFavorite: false
+        isFavorite: false,
       }))
     );
   }

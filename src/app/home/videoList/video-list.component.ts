@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -9,6 +10,7 @@ import { FacadeService, VideoType } from 'src/app/core';
 import { SortType } from 'src/app/core/utils/sort-type';
 import { VideoDialogComponent } from './video-list-item/video-dialog/video-dialog.component';
 import { cloneDeep } from 'lodash';
+import { Subscription } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -17,6 +19,8 @@ import { cloneDeep } from 'lodash';
   styleUrls: ['./video-list.component.css'],
 })
 export class VideoListComponent implements OnInit, OnDestroy {
+  public subscription: Subscription;
+
   public videoList: Video[] = [];
   private fullVideoList: Video[] = [];
 
@@ -33,7 +37,8 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   constructor(
     private facadeService: FacadeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -41,7 +46,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.facadeService.videoList$.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   public delete(id: string): void {
@@ -89,6 +94,10 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.dialog.open(VideoDialogComponent, dialogConfig);
   }
 
+  public toVideoPage(id: string): void {
+    this.router.navigateByUrl(`video/${id}`);
+  }
+
   public toggleFavorites(): void {
     this.showOnlyFavorites = !this.showOnlyFavorites;
     this.pageIndex = 0;
@@ -109,7 +118,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
   }
 
   private getVideos(): void {
-    this.facadeService.videoList$
+    this.subscription = this.facadeService.videoList$
       .pipe(untilDestroyed(this))
       .subscribe((value) => {
         this.fullVideoList = value;

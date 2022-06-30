@@ -27,7 +27,8 @@
       [video]="item"
       (videoDeleted)="delete($event)"
       (videoFavorite)="setAsFavorite($event)"
-      (videoPlayer)="playVideo($event)">
+      (videoPlayer)="playVideo($event)"
+      (videoPage)="toVideoPage($event)">
     </app-video-list-item>
   </ng-container>
   <mat-paginator

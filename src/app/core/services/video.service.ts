@@ -15,7 +15,7 @@ export class VideoService {
   public video$: Subject<Video> = new Subject<Video>();
   public videos: Video[] = [];
 
-  private localStorageList: string= 'Video List';
+  private localStorageList: string = 'Video List';
 
   constructor(private httpService: HttpService) {}
 
@@ -23,7 +23,7 @@ export class VideoService {
     this.videos = this.getFromLocalStorage(this.localStorageList);
     this._videosList$.next(this.videos);
     return this._videosList$;
-  } 
+  }
 
   public getVideo(id: string): void {
     let videoObservable$: Observable<Video>;
@@ -48,11 +48,11 @@ export class VideoService {
     this.setInLocalStorage(this.videos, this.localStorageList);
     this._videosList$.next(this.videos);
   }
-  
+
   public setAsFavorite(id: string): void {
     this.videos = this.getFromLocalStorage(this.localStorageList);
-    let index = this.videos.findIndex((value)=> value.id === id)
-    this.videos[index].isFavorite = !this.videos[index].isFavorite ;
+    let index = this.videos.findIndex((value) => value.id === id);
+    this.videos[index].isFavorite = !this.videos[index].isFavorite;
     this.setInLocalStorage(this.videos, this.localStorageList);
     this._videosList$.next(this.videos);
   }
@@ -64,10 +64,15 @@ export class VideoService {
   }
 
   public getDemoVideos(): void {
-    const videos: string[] = ['eIAEy5aOb9g','zN6zF8AaDA4','BwknA6aGqvs'];
+    const videos: string[] = ['eIAEy5aOb9g', 'zN6zF8AaDA4', 'BwknA6aGqvs'];
     videos.forEach((element) => {
       this.getVideo(element);
     });
+  }
+
+  public getVideoById(id: string): Video {
+    let videos = this.getFromLocalStorage(this.localStorageList);
+    return videos.filter((item) => item.id === id)[0];
   }
 
   private saveVideo(item: Video): void {
