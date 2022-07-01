@@ -14,7 +14,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: stretch !important; 
+  align-items: stretch !important;
   margin-top: 2em;
   gap: 2em;
 }
@@ -24,7 +24,6 @@
   max-width: 80%;
   margin-left: 10%;
   margin-right: 10%;
-
 }
 
 .grid {
@@ -32,20 +31,11 @@
   max-width: 80%;
   margin-left: 10%;
   margin-right: 10%;
-  gap: 5%; 
+  gap: 5%;
 }
 
 .grid .video-list-item {
   margin-top: 2em;
-}
-
-@media (max-width: 1000px) {
-  .grid {
-    flex-direction: column;
-    max-width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
-  }
 }
 
 .video-list-item {
@@ -100,4 +90,13 @@ button:hover {
   bottom: 0;
   width: 100%;
   text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    flex-direction: column;
+    max-width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
 }

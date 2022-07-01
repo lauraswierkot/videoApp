@@ -2,10 +2,10 @@
   <mat-card-title class="title">{{ video?.title }}</mat-card-title>
   <img mat-card-image [src]="video?.thumbnail" (click)="playVideo(video.id)" />
   <mat-card-content>
-    <span *ngIf="!!video?.viewCount; else noViews">view count: {{ video?.viewCount }}<br/></span>
+    <span *ngIf="!!video?.viewCount; else noViews">View count: {{ video?.viewCount }}<br/></span>
     <ng-template #noViews><br /></ng-template>
-    likes: {{ video?.likeCount }} <br />
-    added to library: {{ video?.createdAt | date: "dd/MM/yyyy" }}
+    Likes: {{ video?.likeCount }} <br />
+    Added to library: {{ video?.createdAt | date: "dd/MM/yyyy" }}
   </mat-card-content>
   <mat-card-actions class="buttons-container">
     <button type="button" (click)="delete(video.id)">

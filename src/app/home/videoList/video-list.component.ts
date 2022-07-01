@@ -111,11 +111,10 @@ export class VideoListComponent implements OnInit {
   }
 
   private getVideos(): void {
-    this.facadeService.videoList$
-      .subscribe((value) => {
-        this.fullVideoList = value;
-        this.getFullList();
-      });
+    this.facadeService.videoList$.subscribe((value) => {
+      this.fullVideoList = value;
+      this.getFullList();
+    });
   }
 
   private getFullList(): void {
