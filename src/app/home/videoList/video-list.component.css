@@ -21,7 +21,6 @@
   flex-direction: column;
   max-width: 80%;
   margin-left: 10%;
-  gap: 2em;
   margin-right: 10%;
 }
 
@@ -33,9 +32,17 @@
   gap: 5%;
 }
 
-.video-list-item {
+.grid .video-list-item {
   flex-basis: 30%;
-  margin-top: 5%;
+  margin-top: 2em;
+  text-align: -webkit-center;
+}
+
+.list .items-container .video-list-item {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   text-align: -webkit-center;
 }
 
@@ -46,7 +53,7 @@
   justify-content: center;
   gap: 3em;
   width: 80%;
-  min-height: 3em;
+  min-height: 2em;
   margin-left: 10%;
   margin-right: 10%;
 }
@@ -55,7 +62,6 @@
   display: flex;
   flex-flow: row wrap;
   gap: 1em;
-  height: 1em;
 }
 
 button {

@@ -36,7 +36,7 @@ export class VideoPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
   }
 

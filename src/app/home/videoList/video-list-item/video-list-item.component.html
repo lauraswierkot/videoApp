@@ -17,7 +17,7 @@
       [ngClass]="{ isFavorite: video.isFavorite }">
       <span class="material-icons">favorite</span>
     </button>
-      <button mat-raised-button (click)="toVideoPage(video.id)">
+      <button mat-raised-button (click)="getVideo(video.id)">
       <span class="material-icons">play_circle_filled</span>
     </button>
   </mat-card-actions>

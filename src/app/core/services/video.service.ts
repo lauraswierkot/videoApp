@@ -71,7 +71,7 @@ export class VideoService {
   }
 
   public getVideoById(id: string): Video {
-    let videos = this.getFromLocalStorage(this.localStorageList);
+    const videos = this.getFromLocalStorage(this.localStorageList);
     return videos.filter((item) => item.id === id)[0];
   }
 

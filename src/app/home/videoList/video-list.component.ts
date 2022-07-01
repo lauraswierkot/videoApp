@@ -3,24 +3,21 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { Video } from 'src/app/core/model/video';
 import { FacadeService, VideoType } from 'src/app/core';
 import { SortType } from 'src/app/core/utils/sort-type';
 import { VideoDialogComponent } from './video-list-item/video-dialog/video-dialog.component';
 import { cloneDeep } from 'lodash';
-import { Subscription } from 'rxjs';
 
-@UntilDestroy()
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-videoList',
   templateUrl: './video-list.component.html',
   styleUrls: ['./video-list.component.css'],
 })
-export class VideoListComponent implements OnInit, OnDestroy {
-  public subscription: Subscription;
-
+export class VideoListComponent implements OnInit {
   public videoList: Video[] = [];
   private fullVideoList: Video[] = [];
 
@@ -43,10 +40,6 @@ export class VideoListComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.getVideos();
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   public delete(id: string): void {
@@ -94,7 +87,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
     this.dialog.open(VideoDialogComponent, dialogConfig);
   }
 
-  public toVideoPage(id: string): void {
+  public getVideo(id: string): void {
     this.router.navigateByUrl(`video/${id}`);
   }
 
@@ -118,8 +111,7 @@ export class VideoListComponent implements OnInit, OnDestroy {
   }
 
   private getVideos(): void {
-    this.subscription = this.facadeService.videoList$
-      .pipe(untilDestroyed(this))
+    this.facadeService.videoList$
       .subscribe((value) => {
         this.fullVideoList = value;
         this.getFullList();

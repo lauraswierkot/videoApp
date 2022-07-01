@@ -26,7 +26,7 @@ export class VideoListItemComponent {
     this.videoPlayer.emit(id);
   }
 
-  public toVideoPage(id: string): void {
+  public getVideo(id: string): void {
     this.videoPage.emit(id);
   }
 }
