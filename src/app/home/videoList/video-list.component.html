@@ -26,6 +26,7 @@
     <app-video-list-item
       class="video-list-item"
       [video]="item"
+      [displayType]="displayType"
       (videoDeleted)="delete($event)"
       (videoFavorite)="setAsFavorite($event)"
       (videoPlayer)="playVideo($event)"

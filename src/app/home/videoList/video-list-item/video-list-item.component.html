@@ -1,4 +1,4 @@
-<mat-card class="video-list-item">
+<mat-card class="video-list-item" [ngClass]="{ list: displayType === 'list', grid: displayType === 'grid' }">
   <mat-card-title class="title">{{ video?.title }}</mat-card-title>
   <img mat-card-image [src]="video?.thumbnail" (click)="playVideo(video.id)" />
   <mat-card-content>

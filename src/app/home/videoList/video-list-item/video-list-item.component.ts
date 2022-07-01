@@ -9,6 +9,7 @@ import { Video } from 'src/app/core';
 })
 export class VideoListItemComponent {
   @Input() video: Video;
+  @Input() displayType: string;
   @Output() videoDeleted: EventEmitter<string> = new EventEmitter<string>();
   @Output() videoFavorite: EventEmitter<string> = new EventEmitter<string>();
   @Output() videoPlayer: EventEmitter<string> = new EventEmitter<string>();

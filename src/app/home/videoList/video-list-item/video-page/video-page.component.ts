@@ -36,11 +36,11 @@ export class VideoPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  public ngOnDestroy(): void {
-    this.routeParamsSubscription.unsubscribe();
-  }
-
   public back(): void {
     this.router.navigateByUrl('');
+  }
+
+  public ngOnDestroy(): void {
+    this.routeParamsSubscription.unsubscribe();
   }
 }
