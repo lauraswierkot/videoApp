@@ -1,11 +1,11 @@
-<mat-card class="video-list-item">
+<mat-card class="video-list-item" [ngClass]="{ list: displayType === 'list', grid: displayType === 'grid' }">
   <mat-card-title class="title">{{ video?.title }}</mat-card-title>
   <img mat-card-image [src]="video?.thumbnail" (click)="playVideo(video.id)" />
   <mat-card-content>
-    <span *ngIf="!!video?.viewCount; else noViews">view count: {{ video?.viewCount }}<br/></span>
+    <span *ngIf="!!video?.viewCount; else noViews">View count: {{ video?.viewCount }}<br/></span>
     <ng-template #noViews><br /></ng-template>
-    likes: {{ video?.likeCount }} <br />
-    added to library: {{ video?.createdAt | date: "dd/MM/yyyy" }}
+    Likes: {{ video?.likeCount }} <br />
+    Added to library: {{ video?.createdAt | date: "dd/MM/yyyy" }}
   </mat-card-content>
   <mat-card-actions class="buttons-container">
     <button type="button" (click)="delete(video.id)">
@@ -17,7 +17,7 @@
       [ngClass]="{ isFavorite: video.isFavorite }">
       <span class="material-icons">favorite</span>
     </button>
-    <button mat-raised-button (click)="playVideo(video.id)">
+      <button mat-raised-button (click)="getVideo(video.id)">
       <span class="material-icons">play_circle_filled</span>
     </button>
   </mat-card-actions>

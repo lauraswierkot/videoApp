@@ -9,9 +9,11 @@ import { Video } from 'src/app/core';
 })
 export class VideoListItemComponent {
   @Input() video: Video;
+  @Input() displayType: string;
   @Output() videoDeleted: EventEmitter<string> = new EventEmitter<string>();
   @Output() videoFavorite: EventEmitter<string> = new EventEmitter<string>();
   @Output() videoPlayer: EventEmitter<string> = new EventEmitter<string>();
+  @Output() videoRedirected: EventEmitter<string> = new EventEmitter<string>();
 
   public delete(id: string): void {
     this.videoDeleted.emit(id);
@@ -23,5 +25,9 @@ export class VideoListItemComponent {
 
   public playVideo(id: string): void {
     this.videoPlayer.emit(id);
-}
+  }
+
+  public getVideo(id: string): void {
+    this.videoRedirected.emit(id);
+  }
 }

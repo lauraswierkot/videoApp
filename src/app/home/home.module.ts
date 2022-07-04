@@ -8,6 +8,7 @@ import {
   SearchbarComponent,
   VideoListItemComponent,
   VideoDialogComponent,
+  VideoPageComponent,
 } from './index';
 import { MaterialModule } from './material-module/material.module';
 
@@ -17,11 +18,19 @@ const components = [
   SearchbarComponent,
   VideoListItemComponent,
   VideoDialogComponent,
+  VideoPageComponent,
+];
+
+const imports = [
+  CommonModule,
+  ReactiveFormsModule,
+  FormsModule,
+  MaterialModule,
 ];
 
 @NgModule({
   declarations: [...components],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule],
+  imports: [...imports],
   exports: [...components],
 })
 export class HomeModule {}

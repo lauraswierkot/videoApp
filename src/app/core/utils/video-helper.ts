@@ -20,3 +20,12 @@ export const getVideoId = (url: string): VideoPlayer => {
     };
   }
 };
+
+export const getVideoEmbedUrl = (id: string): string => {
+  const ytIdDigitsLength: number = 11;
+  if (id.length == ytIdDigitsLength) {
+    return `https://www.youtube.com/embed/${id}`;
+  } else {
+    return `https://player.vimeo.com/video/${id}`;
+  }
+};
