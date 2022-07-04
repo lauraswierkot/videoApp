@@ -13,7 +13,7 @@ export class VideoListItemComponent {
   @Output() videoDeleted: EventEmitter<string> = new EventEmitter<string>();
   @Output() videoFavorite: EventEmitter<string> = new EventEmitter<string>();
   @Output() videoPlayer: EventEmitter<string> = new EventEmitter<string>();
-  @Output() videoPage: EventEmitter<string> = new EventEmitter<string>();
+  @Output() videoRedirected: EventEmitter<string> = new EventEmitter<string>();
 
   public delete(id: string): void {
     this.videoDeleted.emit(id);
@@ -28,6 +28,6 @@ export class VideoListItemComponent {
   }
 
   public getVideo(id: string): void {
-    this.videoPage.emit(id);
+    this.videoRedirected.emit(id);
   }
 }
