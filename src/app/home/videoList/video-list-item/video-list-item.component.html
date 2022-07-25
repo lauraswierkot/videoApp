@@ -1,16 +1,20 @@
 <mat-card class="video-list-item">
-  <div class="item">
-  <mat-card-title>{{ video?.title }}</mat-card-title>
-  <img mat-card-image [src]="video?.thumbnail" />
+  <mat-card-title class="title">{{ video?.title }}</mat-card-title>
+  <img mat-card-image [src]="video?.thumbnail" (click)="playVideo(video.id)" />
   <mat-card-content>
-    Likes: {{ video?.likeCount }} <br />
-    Views: {{ video?.viewCount }} <br />
-    Added to library: {{ video?.createdAt | date: 'dd/MM/yyyy'}}
+    <span *ngIf="!!video?.viewCount; else noViews">view count: {{ video?.viewCount }}<br/></span>
+    <ng-template #noViews><br /></ng-template>
+    likes: {{ video?.likeCount }} <br />
+    added to library: {{ video?.createdAt | date: "dd/MM/yyyy" }}
   </mat-card-content>
-</div>
-  <mat-card-actions>
+  <mat-card-actions class="buttons-container">
     <button type="button" (click)="delete(video.id)">delete</button>
-    <button type="button" (click)="setAsFavorite(video.id)">favorite</button>
-    <button mat-raised-button (click)="playVideo(video.id)">Watch</button>
+    <button
+      type="button"
+      (click)="setAsFavorite(video.id)"
+      [ngClass]="{ isFavorite: video.isFavorite }">
+      favorite
+    </button>
+    <button mat-raised-button (click)="playVideo(video.id)">watch</button>
   </mat-card-actions>
 </mat-card>

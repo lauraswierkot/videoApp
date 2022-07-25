@@ -38,7 +38,7 @@ export class HttpService {
   constructor(private http: HttpClient) {}
 
   public getVimeoVideo(id: string): Observable<Video> {
-    const url = `${this.vimeoUrl}/${id}?action=load_stat_counts`;
+    const url = `${this.vimeoUrl}/${id}`;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.vimeoKey}`,
     });
@@ -49,6 +49,7 @@ export class HttpService {
         thumbnail: response.pictures.base_link,
         likeCount: response.metadata.connections.likes.total.toString(),
         createdAt: new Date(),
+        isFavorite: false
       }))
     );
   }
@@ -63,6 +64,7 @@ export class HttpService {
         likeCount: response.items[0]?.statistics?.likeCount,
         viewCount: response.items[0]?.statistics?.viewCount,
         createdAt: new Date(),
+        isFavorite: false
       }))
     );
   }

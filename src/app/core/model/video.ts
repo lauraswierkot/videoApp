@@ -4,6 +4,6 @@ export interface Video {
   thumbnail: string;
   likeCount?: string;
   viewCount?: any;
-  createdAt?: Date;
+  createdAt: Date;
   isFavorite?: boolean;
 }
