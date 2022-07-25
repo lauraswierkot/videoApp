@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper {
   border-radius: 5px;
   background-color: #f2f2f2;
   box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
@@ -13,41 +13,52 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 2em;
   justify-content: center;
   align-items: stretch !important;
+  margin-top: 2em;
+  gap: 2em;
 }
 
 .list {
-  flex-direction: column; max-width: 80%;
+  flex-direction: column;
+  max-width: 80%;
   margin-left: 10%;
-  gap: 2em;
   margin-right: 10%;
 }
 
 .grid {
- flex-direction: row; 
- max-width: 80%;
- margin-left: 10%;
- margin-right: 10%;
- gap:5%;
+  flex-direction: row;
+  max-width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  gap: 5%;
 }
 
-.video-list-item{
-  flex-basis: 30%;  
-  margin-top: 5%;  
+.grid .video-list-item {
+  margin-top: 2em;
+}
+
+.video-list-item {
+  flex-basis: 30%;
   text-align: -webkit-center;
 }
- 
+
 .buttons-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1em;    
+  gap: 3em;
   width: 80%;
+  height: auto;
   margin-left: 10%;
-  margin-right: 10%; 
+  margin-right: 10%;
+}
+
+.button-group {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1em;
 }
 
 button {
@@ -55,11 +66,22 @@ button {
   border: none;
   padding: 0.5em;
   background-color: #e7e7e7;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
 }
 
 button:hover {
   cursor: pointer;
   background-color: #dddbdb;
+}
+
+#delete {
+  background-color: #ce9a9a;
+}
+
+#delete:hover {
+  background-color: #cd8a8a !important;
 }
 
 .mat-paginator {
@@ -68,4 +90,13 @@ button:hover {
   bottom: 0;
   width: 100%;
   text-align: center;
-} 
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    flex-direction: column;
+    max-width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
